@@ -4,6 +4,9 @@ resource "digitalocean_droplet" "mc_server" {
   region  = "lon1"
   size    = "s-1vcpu-2gb"
   backups = true
+  ssh_keys = [
+    digitalocean_ssh_key.mc_server_key.id
+  ]
 }
 
 resource "digitalocean_ssh_key" "mc_server_key" {
@@ -16,7 +19,4 @@ resource "digitalocean_record" "craft_bell_wtf" {
   type   = "A"
   name   = "craft"
   value  = digitalocean_droplet.mc_server.ipv4_address
-  ssh_keys = [
-    digitalocean_ssh_key.mc_server_key.id
-  ]
 }
