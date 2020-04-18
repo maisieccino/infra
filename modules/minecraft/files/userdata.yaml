@@ -1,0 +1,37 @@
+#cloud-config
+package_update: true
+pacakges:
+- openjdk-8-jdk-headless
+users:
+- name: craft
+  shell: /bin/false
+  system: true
+runcmd:
+- - bash
+  - -xec
+  - |
+    curl -Lo /opt/server.jar https://launcher.mojang.com/v1/objects/bb2b6b1aefcd70dfd1892149ac3a215f6c636b07/server.jar
+    chown craft:craft /opt/server.jar
+    mkdir /opt/mcserver
+    chown -R craft:craft /opt/mcserver
+    systemctl enable mcserver
+    systemctl start mcserver
+write_files:
+- path: /etc/systemd/user/mcserver.service
+  content: |
+    [Unit]
+    Description=Minecraft server
+    After=network.target
+
+    [Service]
+    ExecStart=/usr/bin/java
+    User=craft
+    Group=craft
+    KillMode=none
+    SuccessExitStatus=0 1 255
+
+    WorkingDirectory=/opt/mcserver
+    ExecStart=/usr/bin/java -Xms1G -Xmxl.5G -XX:ParallelGCThreads=3 -jar ../server.jar --nogui
+
+    [Install]
+    WantedBy=default.target

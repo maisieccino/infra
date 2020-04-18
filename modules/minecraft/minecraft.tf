@@ -11,7 +11,7 @@ resource "digitalocean_droplet" "mc_server" {
   tags = [
     "minecraft"
   ]
-  user_data = file("${path.module}/files/userdata.sh")
+  user_data = file("${path.module}/files/userdata.yaml")
 
   connection {
     type        = "ssh"
