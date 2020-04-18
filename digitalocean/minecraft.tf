@@ -11,7 +11,7 @@ resource "digitalocean_droplet" "mc_server" {
 
 resource "digitalocean_ssh_key" "mc_server_key" {
   name       = "MC Server Key"
-  public_key = var.mc_server_key
+  public_key = var.mc_server_key_pub
 }
 
 resource "digitalocean_record" "craft_bell_wtf" {
