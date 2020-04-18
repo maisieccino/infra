@@ -1,12 +1,17 @@
 resource "digitalocean_droplet" "mc_server" {
-  image   = "ubuntu-18-04-x64"
-  name    = "mc"
-  region  = "lon1"
-  size    = "s-1vcpu-2gb"
-  backups = true
+  image      = "ubuntu-18-04-x64"
+  name       = "mc"
+  region     = "lon1"
+  size       = "s-1vcpu-2gb"
+  backups    = true
+  monitoring = true
   ssh_keys = [
     digitalocean_ssh_key.mc_server_key.fingerprint
   ]
+  tags = {
+    app = "minecraft"
+  }
+
 }
 
 resource "digitalocean_ssh_key" "mc_server_key" {
