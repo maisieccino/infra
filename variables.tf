@@ -22,3 +22,7 @@ variable "dns_record_ttl" {
   description = "Default TTL for DNS records"
   default     = 3600
 }
+
+variable "le_email" {
+  description = "Let's Encrypt email"
+}

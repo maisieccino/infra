@@ -1,3 +1,11 @@
+data "template_file" "user_data" {
+  template = file("${path.module}/files/userdata.yaml")
+  vars = {
+    dns_name = var.dns_name
+    email    = var.le_email
+  }
+}
+
 resource "digitalocean_droplet" "mc_server" {
   image      = "ubuntu-18-04-x64"
   name       = "mc"
@@ -11,13 +19,13 @@ resource "digitalocean_droplet" "mc_server" {
   tags = [
     "minecraft"
   ]
-  user_data = file("${path.module}/files/userdata.yaml")
+  user_data = data.template_file.user_data.rendered
 
   connection {
     type        = "ssh"
     user        = "root"
     host        = self.ipv4_address
-    private_key = vars.mc_server_key
+    private_key = var.mc_server_key
   }
 }
 

@@ -1,37 +1,111 @@
 #cloud-config
 package_update: true
 pacakges:
-- openjdk-8-jdk-headless
+- openjdk-8-jre-headless
+- nginx
+- jq
+- unattended-upgrades
 users:
 - name: craft
   shell: /bin/false
   system: true
 runcmd:
-- - bash
-  - -xec
-  - |
-    curl -Lo /opt/server.jar https://launcher.mojang.com/v1/objects/bb2b6b1aefcd70dfd1892149ac3a215f6c636b07/server.jar
-    chown craft:craft /opt/server.jar
-    mkdir /opt/mcserver
-    chown -R craft:craft /opt/mcserver
-    systemctl enable mcserver
-    systemctl start mcserver
+- export DOMAIN=${dns_name}
+- export PUBLIC_IPV4=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
+- export DROPLET_ID=$(curl -s http://169.254.169.254/metadata/v1/id)
+- export DROPLET_NAME=$(curl -s http://169.254.169.254/metadata/v1/hostname)
+# get the email for letsencrypt from do api
+- export EMAIL=${email}
+# install certbot, update
+- add-apt-repository ppa:certbot/certbot -y
+- apt-get update
+- apt install python-certbot-nginx -y
+# add domain name to nginx config, restart it
+- sed -i 's/server_name _;/server_name '$DROPLET_NAME"."$DOMAIN';/' /etc/nginx/sites-available/default
+- systemctl restart nginx
+- sleep 30s
+- certbot --nginx -n -d $DROPLET_NAME"."$DOMAIN --email $EMAIL --agree-tos --redirect --dry-run
+
+-  echo "downloading and running minecraft server..."
+-  curl -Lo /opt/server.jar https://launcher.mojang.com/v1/objects/bb2b6b1aefcd70dfd1892149ac3a215f6c636b07/server.jar
+-  chown craft:craft /opt/server.jar
+-  mkdir /opt/mcserver
+-  chown -R craft:craft /opt/mcserver
+-  systemctl daemon-reload
+-  systemctl enable mcserver
+-  systemctl start mcserver
+- systemctl reboot
 write_files:
-- path: /etc/systemd/user/mcserver.service
+- path: /opt/mcserver/eula.txt
+  owner: craft:craft
+  content: |
+    eula=true
+- path: /etc/systemd/system/mcserver.service
+  owner: craft:craft
   content: |
     [Unit]
     Description=Minecraft server
     After=network.target
 
     [Service]
-    ExecStart=/usr/bin/java
     User=craft
     Group=craft
     KillMode=none
     SuccessExitStatus=0 1 255
 
     WorkingDirectory=/opt/mcserver
-    ExecStart=/usr/bin/java -Xms1G -Xmxl.5G -XX:ParallelGCThreads=3 -jar ../server.jar --nogui
+    ExecStart=/usr/bin/java -Xms1G -Xmxl536M -XX:ParallelGCThreads=3 -jar ../server.jar --nogui
 
     [Install]
     WantedBy=default.target
+- path: /opt/mcserver/server.properties
+  owner: craft:craft
+  content: |
+    spawn-protection=16
+    max-tick-time=60000
+    query.port=25565
+    generator-settings=
+    sync-chunk-writes=true
+    force-gamemode=false
+    allow-nether=true
+    enforce-whitelist=true
+    gamemode=survival
+    broadcast-console-to-ops=true
+    enable-query=false
+    player-idle-timeout=0
+    difficulty=easy
+    broadcast-rcon-to-ops=true
+    spawn-monsters=true
+    op-permission-level=4
+    pvp=true
+    snooper-enabled=true
+    level-type=default
+    hardcore=false
+    enable-command-block=true
+    network-compression-threshold=256
+    max-players=20
+    max-world-size=29999984
+    resource-pack-sha1=
+    function-permission-level=2
+    rcon.port=25575
+    server-port=25565
+    server-ip=
+    spawn-npcs=true
+    allow-flight=false
+    level-name=world
+    view-distance=10
+    resource-pack=
+    spawn-animals=true
+    white-list=true
+    rcon.password=
+    generate-structures=true
+    online-mode=true
+    max-build-height=256
+    level-seed=
+    prevent-proxy-connections=false
+    use-native-transport=true
+    motd=A Minecraft Server
+    enable-rcon=false
+- owner: root:root
+  path: /etc/cron.d/letsencrypt_renew
+  content: "15 3 * * * /usr/bin/certbot renew --quiet"
