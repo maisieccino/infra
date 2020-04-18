@@ -11,7 +11,14 @@ resource "digitalocean_droplet" "mc_server" {
   tags = [
     "minecraft"
   ]
+  user_data = file("./files/userdata.sh")
 
+  connection {
+    type        = "ssh"
+    user        = "root"
+    host        = self.ipv4_address
+    private_key = vars.mc_server_key
+  }
 }
 
 resource "digitalocean_ssh_key" "mc_server_key" {
