@@ -5,7 +5,7 @@ resource "digitalocean_droplet" "mc_server" {
   size    = "s-1vcpu-2gb"
   backups = true
   ssh_keys = [
-    digitalocean_ssh_key.mc_server_key.id
+    digitalocean_ssh_key.mc_server_key.fingerprint
   ]
 }
 
