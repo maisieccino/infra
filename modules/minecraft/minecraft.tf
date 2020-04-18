@@ -8,3 +8,8 @@ resource "digitalocean_droplet" "mc_server" {
     digitalocean_ssh_key.mc_server_key.id
   ]
 }
+
+resource "digitalocean_ssh_key" "mc_server_key" {
+  name       = "Minecraft Server SSH Key"
+  public_key = var.mc_server_key_pub
+}
