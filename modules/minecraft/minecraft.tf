@@ -8,9 +8,9 @@ resource "digitalocean_droplet" "mc_server" {
   ssh_keys = [
     digitalocean_ssh_key.mc_server_key.fingerprint
   ]
-  tags = {
-    app = "minecraft"
-  }
+  tags = [
+    "minecraft"
+  ]
 
 }
 
