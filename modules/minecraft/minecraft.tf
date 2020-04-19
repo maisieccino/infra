@@ -19,7 +19,8 @@ resource "digitalocean_droplet" "mc_server" {
   tags = [
     "minecraft"
   ]
-  user_data = data.template_file.user_data.rendered
+  private_networking = true
+  user_data          = data.template_file.user_data.rendered
 
   connection {
     type        = "ssh"
@@ -27,6 +28,11 @@ resource "digitalocean_droplet" "mc_server" {
     host        = self.ipv4_address
     private_key = var.mc_server_key
   }
+}
+
+resource "digitalocean_floating_ip" "mc_Server" {
+  droplet_id = digitalocean_droplet.mc_server.id
+  region     = digitalocean_droplet.mc_server.region
 }
 
 resource "digitalocean_ssh_key" "mc_server_key" {

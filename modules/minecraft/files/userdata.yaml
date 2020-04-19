@@ -11,9 +11,6 @@ users:
   system: true
 runcmd:
 - export DOMAIN=${dns_name}
-- export PUBLIC_IPV4=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
-- export DROPLET_ID=$(curl -s http://169.254.169.254/metadata/v1/id)
-# get the email for letsencrypt from do api
 - export EMAIL=${email}
 # install certbot, update
 - add-apt-repository ppa:certbot/certbot -y
@@ -35,6 +32,18 @@ runcmd:
 -  systemctl start mcserver
 - systemctl reboot
 write_files:
+- path: /etc/nginx/sites-available/default
+  content: |
+    server {
+        listen 80;
+        listen [::]:80;
+        access_log /var/log/nginx/reverse-access.log;
+        error_log /var/log/nginx/reverse-error.log;
+
+        location / {
+            proxy_pass http://127.0.0.1:25565;
+        }
+    }
 - path: /opt/mcserver/eula.txt
   owner: craft:craft
   content: |
