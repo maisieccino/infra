@@ -1,16 +1,18 @@
 #cloud-config
 package_update: true
+package_upgrade: true
 pacakges:
-- openjdk-8-jre-headless
 - nginx
 - jq
+- openjdk-8-jre-headless
 - unattended-upgrades
+- fail2ban
 users:
 - name: craft
   shell: /bin/false
   system: true
 runcmd:
-- export DOMAIN=${dns_name}
+- export DNS_NAME=${dns_name}
 - export EMAIL=${email}
 # install certbot, update
 - add-apt-repository ppa:certbot/certbot -y
