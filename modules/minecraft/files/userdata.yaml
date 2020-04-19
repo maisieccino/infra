@@ -46,7 +46,6 @@ write_files:
         }
     }
 - path: /opt/mcserver/eula.txt
-  owner: craft:craft
   content: |
     eula=true
 - path: /etc/systemd/system/mcserver.service
@@ -68,7 +67,6 @@ write_files:
     [Install]
     WantedBy=default.target
 - path: /opt/mcserver/server.properties
-  owner: craft:craft
   content: |
     spawn-protection=16
     max-tick-time=60000
