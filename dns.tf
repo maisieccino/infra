@@ -58,12 +58,12 @@ resource "digitalocean_record" "nacl_bell_wtf" {
   domain = digitalocean_domain.bell_wtf.id
   type   = "CNAME"
   name   = "nacl"
-  value  = "mbellgb.github.io"
+  value  = "mbellgb.github.io."
 }
 
 resource "digitalocean_record" "matt_bell_wtf" {
   domain = digitalocean_domain.bell_wtf.id
   type   = "CNAME"
   name   = "matt"
-  value  = "mbellgb.github.io"
+  value  = "mbellgb.github.io."
 }
