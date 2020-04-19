@@ -2,7 +2,6 @@
 package_update: true
 package_upgrade: true
 packages:
-- nginx
 - jq
 - openjdk-8-jre-headless
 - unattended-upgrades
@@ -15,17 +14,8 @@ users:
 runcmd:
 - export DNS_NAME=${dns_name}
 - export EMAIL=${email}
-# install certbot, update
-- add-apt-repository ppa:certbot/certbot -y
-- apt-get update
-- apt install python-certbot-nginx -y
-# add domain name to nginx config, restart it
-- sed -i 's/server_name _;/server_name '$DNS_NAME';/' /etc/nginx/sites-available/default
-- systemctl restart nginx
-- sleep 30s
-- certbot --nginx -n -d "$DNS_NAME" --email $EMAIL --agree-tos --redirect
-- ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default || echo "Site already enabled"
-
+- chattr +i /etc/nginx/nginx.conf
+- apt install nginx
 - echo "downloading and running minecraft server..."
 - curl -Lo /opt/server.jar https://launcher.mojang.com/v1/objects/bb2b6b1aefcd70dfd1892149ac3a215f6c636b07/server.jar
 - chown craft:craft /opt/server.jar
@@ -51,7 +41,7 @@ write_files:
     SuccessExitStatus=0 1 255
 
     WorkingDirectory=/mnt/serverdata
-    ExecStart=/usr/bin/java -Xms512M -Xmxl536M -XX:ParallelGCThreads=3 -jar /opt/server.jar --nogui
+    ExecStart=/usr/bin/java -Xms512M -Xmx512M -XX:ParallelGCThreads=3 -jar /opt/server.jar --nogui
 
     [Install]
     WantedBy=default.target

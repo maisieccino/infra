@@ -13,3 +13,7 @@ variable "dns_name" {
 variable "le_email" {
   description = "Let's Encrypt email address"
 }
+
+variable "unused_craft_dns_meta" {
+  description = "Unused variable to coerce module creation _after_ DNS records."
+}
