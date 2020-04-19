@@ -82,7 +82,7 @@ resource "digitalocean_domain" "craft" {
 }
 
 resource "digitalocean_record" "root" {
-  domain = resource.digitalocean_domain.craft.id
+  domain = digitalocean_domain.craft.id
   type   = "A"
   name   = "@"
   value  = digitalocean_loadbalancer.mc_server.ip
