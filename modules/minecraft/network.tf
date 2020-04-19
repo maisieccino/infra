@@ -18,6 +18,7 @@ resource "digitalocean_loadbalancer" "mc_server" {
     target_port     = 25565
     target_protocol = "tcp"
 
+    certificate_id = digitalocean_certificate.craft.id
   }
 
   healthcheck {
@@ -65,4 +66,10 @@ resource "digitalocean_firewall" "mcserver" {
     port_range            = "1-65535"
     destination_addresses = ["0.0.0.0/0"]
   }
+}
+
+resource "digitalocean_certificate" "craft" {
+  name    = "craft-cert"
+  type    = "lets_encrypt"
+  domains = ["craft.bell.wtf"]
 }
