@@ -40,13 +40,6 @@ resource "digitalocean_domain" "bell_wtf" {
   name = "bell.wtf"
 }
 
-resource "digitalocean_record" "craft_bell_wtf" {
-  domain = digitalocean_domain.bell_wtf.id
-  type   = "A"
-  name   = "craft"
-  value  = module.minecraft.lb_ip
-}
-
 resource "digitalocean_record" "bell_wtf_txt" {
   domain = digitalocean_domain.bell_wtf.id
   type   = "TXT"
