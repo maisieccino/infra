@@ -81,7 +81,8 @@ resource "digitalocean_firewall" "mcserver" {
 # DNS.
 
 resource "digitalocean_domain" "craft" {
-  name = "craft.bell.wtf"
+  name       = "craft.bell.wtf"
+  ip_address = digitalocean_droplet.mc_server.ipv4_address
 }
 
 resource "digitalocean_record" "craft_root" {
