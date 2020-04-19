@@ -78,22 +78,22 @@ resource "digitalocean_firewall" "mcserver" {
   inbound_rule {
     protocol         = "tcp"
     port_range       = "80"
-    source_addresses = ["0.0.0.0/8"]
+    source_addresses = ["0.0.0.0/0"]
   }
   inbound_rule {
     protocol         = "tcp"
     port_range       = "443"
-    source_addresses = ["0.0.0.0/8"]
+    source_addresses = ["0.0.0.0/0"]
   }
   inbound_rule {
     protocol         = "tcp"
     port_range       = "25565"
-    source_addresses = ["0.0.0.0/8"]
+    source_addresses = ["0.0.0.0/0"]
   }
   inbound_rule {
     protocol         = "tcp"
     port_range       = "25585"
-    source_addresses = ["0.0.0.0/8"]
+    source_addresses = ["0.0.0.0/0"]
   }
 
   outbound_rule {
