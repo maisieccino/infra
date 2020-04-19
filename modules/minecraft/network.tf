@@ -4,6 +4,9 @@ resource "digitalocean_certificate" "craft" {
   name    = "craft.bell.wtf"
   type    = "lets_encrypt"
   domains = ["craft.bell.wtf"]
+  depends_on [
+      digitalocean_record.craft_root
+  ]
 }
 
 resource "digitalocean_loadbalancer" "mc_server" {
@@ -81,7 +84,7 @@ resource "digitalocean_domain" "craft" {
   name = "craft.bell.wtf"
 }
 
-resource "digitalocean_record" "root" {
+resource "digitalocean_record" "craft_root" {
   domain = digitalocean_domain.craft.id
   type   = "A"
   name   = "@"
