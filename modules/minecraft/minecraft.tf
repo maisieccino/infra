@@ -72,7 +72,7 @@ resource "digitalocean_firewall" "mcserver" {
     protocol   = "tcp"
     port_range = "22"
     # may be restricted if I cba to set up a bastion.
-    source_addresses = ["0.0.0.0/8"]
+    source_addresses = ["0.0.0.0/0"]
   }
 
   inbound_rule {
