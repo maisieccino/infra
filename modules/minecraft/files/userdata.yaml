@@ -23,7 +23,7 @@ runcmd:
 - sed -i 's/server_name _;/server_name '$DNS_NAME';/' /etc/nginx/sites-available/default
 - systemctl restart nginx
 - sleep 30s
-- certbot --nginx -n -d "$DNS_NAME" --email $EMAIL --agree-tos --redirect --dry-run
+- certbot --nginx -n -d "$DNS_NAME" --email $EMAIL --agree-tos --redirect
 - ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default || echo "Site already enabled"
 
 - echo "downloading and running minecraft server..."
@@ -34,19 +34,6 @@ runcmd:
 - systemctl enable mcserver
 - systemctl reboot
 write_files:
-- path: /etc/nginx/sites-available/default
-  owner: root:root
-  content: |
-    server {
-        listen 80;
-        listen [::]:80;
-        access_log /var/log/nginx/reverse-access.log;
-        error_log /var/log/nginx/reverse-error.log;
-
-        location / {
-            proxy_pass http://127.0.0.1:25565;
-        }
-    }
 - path: /mnt/serverdata/eula.txt
   content: |
     eula=true
@@ -64,7 +51,7 @@ write_files:
     SuccessExitStatus=0 1 255
 
     WorkingDirectory=/mnt/serverdata
-    ExecStart=/usr/bin/java -Xms512M -Xmxl536M -XX:ParallelGCThreads=3 -jar ../server.jar --nogui
+    ExecStart=/usr/bin/java -Xms512M -Xmxl536M -XX:ParallelGCThreads=3 -jar /opt/server.jar --nogui
 
     [Install]
     WantedBy=default.target
@@ -72,7 +59,7 @@ write_files:
   content: |
     spawn-protection=16
     max-tick-time=60000
-    query.port=25565
+    query.port=25585
     generator-settings=
     sync-chunk-writes=true
     force-gamemode=false
@@ -97,7 +84,7 @@ write_files:
     resource-pack-sha1=
     function-permission-level=2
     rcon.port=25575
-    server-port=25565
+    server-port=25585
     server-ip=127.0.0.1
     spawn-npcs=true
     allow-flight=false
@@ -132,6 +119,47 @@ write_files:
         "level": 4
       }
     ]
-- owner: root:root
-  path: /etc/cron.d/letsencrypt_renew
-  content: "15 3 * * * /usr/bin/certbot renew --quiet"
+- path: /etc/nginx/config
+  owner: root:root
+  content: |
+    user www-data;
+    worker_processes auto;
+    pid /run/nginx.pid;
+    include /etc/nginx/modules-enabled/*.conf;
+
+    events {
+    	worker_connections 768;
+    }
+
+    http {
+    	sendfile on;
+    	tcp_nopush on;
+    	tcp_nodelay on;
+    	keepalive_timeout 65;
+    	types_hash_max_size 2048;
+
+    	include /etc/nginx/mime.types;
+    	default_type application/octet-stream;
+
+    	ssl_protocols TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+    	ssl_prefer_server_ciphers on;
+
+    	access_log /var/log/nginx/access.log;
+    	error_log /var/log/nginx/error.log;
+
+    	gzip on;
+
+    	include /etc/nginx/conf.d/*.conf;
+    	include /etc/nginx/sites-enabled/*;
+    }
+
+    stream {
+      server {
+        listen 25565;
+        proxy_pass 127.0.0.1:25585;
+      }
+      server {
+        listen 25565 udp;
+        proxy_pass 127.0.0.1:25585;
+      }
+    }
