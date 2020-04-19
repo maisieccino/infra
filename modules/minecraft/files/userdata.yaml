@@ -154,6 +154,7 @@ write_files:
     }
 
     stream {
+      # Minecraft servers.
       server {
         listen 25565;
         proxy_pass 127.0.0.1:25585;
