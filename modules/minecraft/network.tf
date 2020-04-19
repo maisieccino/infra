@@ -1,13 +1,13 @@
 # Networking.
 
-resource "digitalocean_certificate" "craft" {
-  name    = "craft.bell.wtf"
-  type    = "lets_encrypt"
-  domains = ["craft.bell.wtf"]
-  depends_on = [
-    digitalocean_record.craft_root,
-  ]
-}
+# resource "digitalocean_certificate" "craft" {
+#   name    = "craft.bell.wtf"
+#   type    = "lets_encrypt"
+#   domains = ["craft.bell.wtf"]
+#   depends_on = [
+#     digitalocean_record.craft_root,
+#   ]
+# }
 
 resource "digitalocean_loadbalancer" "mc_server" {
   name   = "mc-server"
