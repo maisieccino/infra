@@ -1,5 +1,6 @@
 provider "digitalocean" {
-  token = var.do_token
+  token   = var.do_token
+  version = "~> 1.16"
 }
 
 module "minecraft" {

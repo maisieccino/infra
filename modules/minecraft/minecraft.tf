@@ -30,7 +30,7 @@ resource "digitalocean_droplet" "mc_server" {
   }
 }
 
-resource "digitalocean_floating_ip" "mc_Server" {
+resource "digitalocean_floating_ip" "mc_server" {
   droplet_id = digitalocean_droplet.mc_server.id
   region     = digitalocean_droplet.mc_server.region
 }
