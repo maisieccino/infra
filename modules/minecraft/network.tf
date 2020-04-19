@@ -4,8 +4,8 @@ resource "digitalocean_certificate" "craft" {
   name    = "craft.bell.wtf"
   type    = "lets_encrypt"
   domains = ["craft.bell.wtf"]
-  depends_on [
-      digitalocean_record.craft_root
+  depends_on = [
+    digitalocean_domain.craft,
   ]
 }
 
