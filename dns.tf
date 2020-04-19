@@ -12,10 +12,26 @@ data "cloudflare_zones" "bell_wtf" {
   }
 }
 
-resource "cloudflare_record" "craft_bell_wtf" {
+resource "cloudflare_record" "craft_bell_wtf_1" {
   zone_id = lookup(data.cloudflare_zones.bell_wtf.zones[0], "id")
   name    = "craft"
-  type    = "A"
-  value   = module.minecraft.ipv4_address
+  type    = "NS"
+  value   = "ns1.digitalocean.com"
+  ttl     = var.dns_record_ttl
+}
+
+resource "cloudflare_record" "craft_bell_wtf_2" {
+  zone_id = lookup(data.cloudflare_zones.bell_wtf.zones[0], "id")
+  name    = "craft"
+  type    = "NS"
+  value   = "ns2.digitalocean.com"
+  ttl     = var.dns_record_ttl
+}
+
+resource "cloudflare_record" "craft_bell_wtf_3" {
+  zone_id = lookup(data.cloudflare_zones.bell_wtf.zones[0], "id")
+  name    = "craft"
+  type    = "NS"
+  value   = "ns2.digitalocean.com"
   ttl     = var.dns_record_ttl
 }
