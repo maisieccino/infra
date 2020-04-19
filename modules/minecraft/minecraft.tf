@@ -16,7 +16,7 @@ resource "digitalocean_droplet" "mc_server" {
   name       = "mc"
   region     = local.region
   size       = "s-1vcpu-2gb"
-  backups    = true
+  backups    = false
   monitoring = true
   ssh_keys = [
     digitalocean_ssh_key.mc_server_key.fingerprint
