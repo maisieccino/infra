@@ -52,13 +52,45 @@ resource "digitalocean_volume_attachment" "foobar" {
   volume_id  = digitalocean_volume.mc_server.id
 }
 
+resource "digitalocean_ssh_key" "mc_server_key" {
+  name       = "Minecraft Server SSH Key"
+  public_key = var.mc_server_key_pub
+}
+
+# Networking.
 
 resource "digitalocean_floating_ip" "mc_server" {
   droplet_id = digitalocean_droplet.mc_server.id
   region     = digitalocean_droplet.mc_server.region
 }
 
-resource "digitalocean_ssh_key" "mc_server_key" {
-  name       = "Minecraft Server SSH Key"
-  public_key = var.mc_server_key_pub
+resource "digitalocean_firewall" "mcserver" {
+  name        = "web-ssh-only"
+  droplet_ids = [digitalocean_droplet.mc_server.id]
+
+  inbound_rule {
+    protocol   = "tcp"
+    port_range = "22"
+    # may be restricted if I cba to set up a bastion.
+    source_addresses = ["0.0.0.0/8"]
+  }
+
+  inbound_rule {
+    protocol         = "tcp"
+    port_range       = "80"
+    source_addresses = ["0.0.0.0/8"]
+  }
+  inbound_rule {
+    protocol         = "tcp"
+    port_range       = "443"
+    source_addresses = ["0.0.0.0/8"]
+  }
+  outbound_rule {
+    protocol   = "tcp"
+    port_range = "0-65535"
+  }
+  outbound_rule {
+    protocol   = "udp"
+    port_range = "0-65535"
+  }
 }
