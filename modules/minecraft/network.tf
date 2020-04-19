@@ -28,7 +28,6 @@ resource "digitalocean_loadbalancer" "mc_server" {
     target_port     = 25565
     target_protocol = "tcp"
 
-    certificate_id = digitalocean_certificate.craft.id
   }
 
   healthcheck {
