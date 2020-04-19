@@ -21,18 +21,19 @@ runcmd:
 - systemctl restart nginx
 - sleep 30s
 - certbot --nginx -n -d "$DNS_NAME" --email $EMAIL --agree-tos --redirect --dry-run
+- ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default || echo "Site already enabled"
 
--  echo "downloading and running minecraft server..."
--  curl -Lo /opt/server.jar https://launcher.mojang.com/v1/objects/bb2b6b1aefcd70dfd1892149ac3a215f6c636b07/server.jar
--  chown craft:craft /opt/server.jar
--  mkdir /opt/mcserver
--  chown -R craft:craft /opt/mcserver
--  systemctl daemon-reload
--  systemctl enable mcserver
--  systemctl start mcserver
+- echo "downloading and running minecraft server..."
+- curl -Lo /opt/server.jar https://launcher.mojang.com/v1/objects/bb2b6b1aefcd70dfd1892149ac3a215f6c636b07/server.jar
+- chown craft:craft /opt/server.jar
+- mkdir /opt/mcserver
+- chown -R craft:craft /opt/mcserver
+- systemctl daemon-reload
+- systemctl enable mcserver
 - systemctl reboot
 write_files:
 - path: /etc/nginx/sites-available/default
+  owner: root:root
   content: |
     server {
         listen 80;
@@ -49,7 +50,7 @@ write_files:
   content: |
     eula=true
 - path: /etc/systemd/system/mcserver.service
-  owner: craft:craft
+  owner: root:root
   content: |
     [Unit]
     Description=Minecraft server
