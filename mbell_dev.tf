@@ -18,7 +18,7 @@ resource "cloudflare_record" "root_mbell_dev_1" {
   zone_id = cloudflare_zone.mbell_dev.id
   name    = "mbell.dev"
   type    = "A"
-  value   = "185.199.111.153"
+  value   = "185.199.108.153"
   ttl     = var.dns_record_ttl
 }
 
@@ -26,7 +26,7 @@ resource "cloudflare_record" "root_mbell_dev_2" {
   zone_id = cloudflare_zone.mbell_dev.id
   name    = "mbell.dev"
   type    = "A"
-  value   = "185.199.110.153"
+  value   = "185.199.109.153"
   ttl     = var.dns_record_ttl
 }
 
@@ -34,7 +34,7 @@ resource "cloudflare_record" "root_mbell_dev_3" {
   zone_id = cloudflare_zone.mbell_dev.id
   name    = "mbell.dev"
   type    = "A"
-  value   = "185.199.109.153"
+  value   = "185.199.110.153"
   ttl     = var.dns_record_ttl
 }
 
@@ -42,7 +42,7 @@ resource "cloudflare_record" "root_mbell_dev_4" {
   zone_id = cloudflare_zone.mbell_dev.id
   name    = "mbell.dev"
   type    = "A"
-  value   = "185.199.108.153"
+  value   = "185.199.111.153"
   ttl     = var.dns_record_ttl
 }
 
@@ -76,7 +76,7 @@ resource "cloudflare_record" "k8s_mbell_dev_2" {
   zone_id = cloudflare_zone.mbell_dev.id
   name    = "k8s"
   type    = "NS"
-  value   = "ns2.digitalocean.com"
+  value   = "ns3.digitalocean.com"
   ttl     = var.dns_record_ttl
 }
 
@@ -84,7 +84,7 @@ resource "cloudflare_record" "k8s_mbell_dev_3" {
   zone_id = cloudflare_zone.mbell_dev.id
   name    = "k8s"
   type    = "NS"
-  value   = "ns3.digitalocean.com"
+  value   = "ns2.digitalocean.com"
   ttl     = var.dns_record_ttl
 }
 
