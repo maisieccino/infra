@@ -3,6 +3,12 @@ provider "digitalocean" {
   version = "~> 1.16"
 }
 
+provider "cloudflare" {
+  version = "~> 2.0"
+  email   = var.cloudflare_email
+  api_key = var.cloudflare_api_key
+}
+
 // Minecraft server and related DNS record.
 
 module "minecraft" {
