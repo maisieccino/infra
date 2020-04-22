@@ -10,7 +10,9 @@ modules live in the `modules/` directory.
 
 `main.tf` is where providers and modules are called.
 
-`dns.tf` represents DNS record configuration for the infrastructure.
+`mbell_dev.tf` represents DNS record configuration for the `mbell.dev` domain.
+
+`bell_wtf.tf` represents DNS record configuration for the `mbell.dev` domain.
 
 `variables.tf` are for infra-wide variables.
 
