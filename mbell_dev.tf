@@ -47,24 +47,26 @@ resource "cloudflare_record" "root_mbell_dev_4" {
 }
 
 resource "cloudflare_record" "mg_mbell_dev_1" {
-  zone_id = cloudflare_zone.mbell_dev.id
-  name    = "mg"
-  type    = "MX"
-  value   = "mxa.eu.mailgun.org"
-  ttl     = var.dns_record_ttl
+  zone_id  = cloudflare_zone.mbell_dev.id
+  name     = "mg"
+  type     = "MX"
+  value    = "mxa.eu.mailgun.org"
+  priority = 10
+  ttl      = var.dns_record_ttl
 }
 
 resource "cloudflare_record" "mg_mbell_dev_2" {
-  zone_id = cloudflare_zone.mbell_dev.id
-  name    = "mg"
-  type    = "MX"
-  value   = "mxb.eu.mailgun.org"
-  ttl     = var.dns_record_ttl
+  zone_id  = cloudflare_zone.mbell_dev.id
+  name     = "mg"
+  type     = "MX"
+  value    = "mxb.eu.mailgun.org"
+  priority = 10
+  ttl      = var.dns_record_ttl
 }
 
 resource "cloudflare_record" "k8s_mbell_dev_1" {
   zone_id = cloudflare_zone.mbell_dev.id
-  name    = "mg"
+  name    = "k8s"
   type    = "NS"
   value   = "ns1.digitalocean.com"
   ttl     = var.dns_record_ttl
@@ -72,15 +74,15 @@ resource "cloudflare_record" "k8s_mbell_dev_1" {
 
 resource "cloudflare_record" "k8s_mbell_dev_2" {
   zone_id = cloudflare_zone.mbell_dev.id
-  name    = "mgt "
+  name    = "k8s"
   type    = "NS"
-  value   = "ns1.digitalocean.com"
+  value   = "ns2.digitalocean.com"
   ttl     = var.dns_record_ttl
 }
 
 resource "cloudflare_record" "k8s_mbell_dev_3" {
   zone_id = cloudflare_zone.mbell_dev.id
-  name    = "mg"
+  name    = "k8s"
   type    = "NS"
   value   = "ns3.digitalocean.com"
   ttl     = var.dns_record_ttl
