@@ -56,10 +56,59 @@ resource "cloudflare_record" "mg_txt_mbell_dev" {
   ttl     = var.dns_record_ttl
 }
 
+/**
+* G SUITE
+**/
+
 resource "cloudflare_record" "google_site_verification_mbell_dev" {
   zone_id = cloudflare_zone.mbell_dev.id
   name    = "mbell.dev"
   type    = "TXT"
   value   = "google-site-verification=ym4hs30waHAYty1j4yWFYFxMgEIU92MFQrDfc8_2r4g"
   ttl     = var.dns_record_ttl
+}
+
+resource "cloudflare_record" "mx_1_mbell_dev" {
+  zone_id  = cloudflare_zone.mbell_dev.id
+  name     = "mbell.dev"
+  type     = "MX"
+  value    = "aspmx.l.google.com"
+  priority = 1
+  ttl      = var.dns_record_ttl
+}
+
+resource "cloudflare_record" "mx_2_mbell_dev" {
+  zone_id  = cloudflare_zone.mbell_dev.id
+  name     = "mbell.dev"
+  type     = "MX"
+  value    = "alt1.aspmx.l.google.com"
+  priority = 5
+  ttl      = var.dns_record_ttl
+}
+
+resource "cloudflare_record" "mx_3_mbell_dev" {
+  zone_id  = cloudflare_zone.mbell_dev.id
+  name     = "mbell.dev"
+  type     = "MX"
+  value    = "alt2.aspmx.l.google.com"
+  priority = 5
+  ttl      = var.dns_record_ttl
+}
+
+resource "cloudflare_record" "mx_4_mbell_dev" {
+  zone_id  = cloudflare_zone.mbell_dev.id
+  name     = "mbell.dev"
+  type     = "MX"
+  value    = "aspmx2.googlemail.com"
+  priority = 10
+  ttl      = var.dns_record_ttl
+}
+
+resource "cloudflare_record" "mx_5_mbell_dev" {
+  zone_id  = cloudflare_zone.mbell_dev.id
+  name     = "mbell.dev"
+  type     = "MX"
+  value    = "aspmx3.googlemail.com"
+  priority = 10
+  ttl      = var.dns_record_ttl
 }
