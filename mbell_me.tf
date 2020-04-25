@@ -61,7 +61,7 @@ resource "cloudflare_record" "mx_alt_mbell_me" {
   name     = "mx"
   type     = "MX"
   value    = "alt${count.index}.aspmx.l.google.com"
-  priority = 5 * count.index
+  priority = 5 * (count.index + 1)
   ttl      = var.dns_record_ttl
 }
 
