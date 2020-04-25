@@ -83,7 +83,7 @@ resource "cloudflare_record" "txt_keybase_mbell_me" {
 
 resource "cloudflare_record" "txt_mg_mbell_me" {
   zone_id = cloudflare_zone.mbell_me.id
-  name    = "mx._domainkey.mg"
+  name    = "mg"
   type    = "TXT"
   value   = "v=spf1 include:mailgun.org ~all"
   ttl     = var.dns_record_ttl
@@ -91,7 +91,7 @@ resource "cloudflare_record" "txt_mg_mbell_me" {
 
 resource "cloudflare_record" "txt_domainkey_mx_mbell_me" {
   zone_id = cloudflare_zone.mbell_me.id
-  name    = "mg"
+  name    = "mx._domainkey.mg"
   type    = "TXT"
   value   = "k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDGZxUEsq6rWpHKHMkX4pbei5PBHd98OtlhVV2G8yUp8+bWqGgx+u0jehjJtCGu34IQuUXFLHEIDKCz2buJM87BAUy0/acTNhbR0DAXzb91JkdkI62lfI1Ds41kOgHfjTcnPmHfNe22jAZOeKXZkbQokVkhBj0LygMC07yeLSlZdwIDAQAB"
   ttl     = var.dns_record_ttl
