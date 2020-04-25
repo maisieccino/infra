@@ -34,7 +34,7 @@ resource "cloudflare_record" "openticket_mbell_me" {
   zone_id = cloudflare_zone.mbell_me.id
   name    = "openticket"
   type    = "CNAME"
-  value   = "mbellgb.github.io"
+  value   = "open-ticket.github.io"
   ttl     = var.dns_record_ttl
 }
 
@@ -48,7 +48,7 @@ resource "cloudflare_record" "www_mbell_me" {
 
 resource "cloudflare_record" "mx_mbell_me" {
   zone_id  = cloudflare_zone.mbell_me.id
-  name     = "mx"
+  name     = "mbell.me"
   type     = "MX"
   value    = "aspmx.l.google.com"
   priority = 1
@@ -58,7 +58,7 @@ resource "cloudflare_record" "mx_mbell_me" {
 resource "cloudflare_record" "mx_alt_mbell_me" {
   count    = 4
   zone_id  = cloudflare_zone.mbell_me.id
-  name     = "mx"
+  name     = "mbell.me"
   type     = "MX"
   value    = "alt${count.index}.aspmx.l.google.com"
   priority = 5 * (count.index + 1)
@@ -83,7 +83,7 @@ resource "cloudflare_record" "txt_keybase_mbell_me" {
 
 resource "cloudflare_record" "txt_mg_mbell_me" {
   zone_id = cloudflare_zone.mbell_me.id
-  name    = "mg"
+  name    = "mx._domainkey.mg"
   type    = "TXT"
   value   = "v=spf1 include:mailgun.org ~all"
   ttl     = var.dns_record_ttl
