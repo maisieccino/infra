@@ -60,7 +60,7 @@ resource "cloudflare_record" "mx_alt_mbell_me" {
   zone_id  = cloudflare_zone.mbell_me.id
   name     = "mbell.me"
   type     = "MX"
-  value    = "alt${count.index}.aspmx.l.google.com"
+  value    = "alt${count.index + 1}.aspmx.l.google.com"
   priority = 5 * (count.index + 1)
   ttl      = var.dns_record_ttl
 }
