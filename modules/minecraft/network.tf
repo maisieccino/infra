@@ -4,6 +4,26 @@ resource "digitalocean_loadbalancer" "mc_server" {
   region = local.region
 
   forwarding_rule {
+    entry_port     = 80
+    entry_protocol = "http"
+
+    target_port     = 80
+    target_protocol = "http"
+
+    certificate_id = digitalocean_certificate.craft.id
+  }
+
+  forwarding_rule {
+    entry_port     = 443
+    entry_protocol = "https"
+
+    target_port     = 80
+    target_protocol = "http"
+
+    certificate_id = digitalocean_certificate.craft.id
+  }
+
+  forwarding_rule {
     // SSH
     entry_port      = 2568
     entry_protocol  = "tcp"
@@ -17,26 +37,6 @@ resource "digitalocean_loadbalancer" "mc_server" {
 
     target_port     = 25565
     target_protocol = "tcp"
-  }
-
-  forwarding_rule {
-    entry_port = 443
-    entry_protocol = "https"
-
-    target_port = 80
-    target_protocol = "http"
-
-    certificate_id = digitalocean_certificate.craft.id
-  }
-
-  forwarding_rule {
-    entry_port = 80
-    entry_protocol = "http"
-
-    target_port = 80
-    target_protocol = "http"
-
-    certificate_id = digitalocean_certificate.craft.id
   }
 
   healthcheck {
