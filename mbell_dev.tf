@@ -56,3 +56,10 @@ resource "cloudflare_record" "mg_txt_mbell_dev" {
   ttl     = var.dns_record_ttl
 }
 
+resource "cloudflare_record" "google_site_verification_mbell_dev" {
+  zone_id = cloudflare_zone.mbell_dev.id
+  name    = "mbell.dev"
+  type    = "TXT"
+  value   = "google-site-verification=ym4hs30waHAYty1j4yWFYFxMgEIU92MFQrDfc8_2r4g"
+  ttl     = var.dns_record_ttl
+}
