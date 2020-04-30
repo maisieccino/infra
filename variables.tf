@@ -6,8 +6,8 @@ variable "cloudflare_email" {
   description = "Email address for cloudflare"
 }
 
-variable "cloudflare_api_key" {
-  description = "API key for cloudflare"
+variable "cloudflare_api_token" {
+  description = "API token for cloudflare"
 }
 
 variable "mc_server_key" {
