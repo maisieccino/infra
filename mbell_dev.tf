@@ -56,6 +56,14 @@ resource "cloudflare_record" "mg_txt_mbell_dev" {
   ttl     = var.dns_record_ttl
 }
 
+resource "cloudflare_record" "keybase_dns_mbell_dev" {
+  zone_id = cloudflare_zone.mbell_dev.id
+  name    = "mbell.dev"
+  type    = "TXT"
+  value   = "keybase-site-verification=9RFCAnjL7UOnnmh9JZEIxLsgFAJw8u7sJq5WPPULoAE"
+  ttl     = var.dns_record_ttl
+}
+
 /**
 * G SUITE
 **/
