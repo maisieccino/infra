@@ -9,6 +9,19 @@ provider "cloudflare" {
   api_token = var.cloudflare_api_token
 }
 
+provider "github" {
+  version = "2.4.0"
+  token = var.github_token
+  organization = "mbellgb"
+  individual = false
+}
+
+// K8s cluster initialisation
+
+module "cluster" {
+  source = "./modules/cluster"
+}
+
 # // Minecraft server and related DNS record.
 #
 # module "minecraft" {
