@@ -39,7 +39,7 @@ resource "kubernetes_namespace" "flux" {
 resource "kubernetes_secret" "flux_key" {
   metadata {
     name = "flux-git-deploy"
-    namespace = "flux"
+    namespace = kubernetes_namespace.flux.metadata[0].name
   }
 
   data = {
