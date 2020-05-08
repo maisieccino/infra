@@ -4,6 +4,8 @@ infrastructure configuration for my personal projects and servers.
 
 runs on terraform cloud.
 
+# terraform
+
 ## project structure
 
 modules live in the `modules/` directory.
