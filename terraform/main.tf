@@ -16,6 +16,12 @@ provider "github" {
   individual   = false
 }
 
+provider "google" {
+  credentials = base64decode(var.gcp_credentials_encoded)
+  project     = var.gcp_project
+  region      = var.gcp_region
+}
+
 // K8s cluster.
 
 # module "cluster" {

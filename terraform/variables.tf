@@ -30,3 +30,15 @@ variable "le_email" {
 variable "github_token" {
   description = "Token to authenticate with GitHub"
 }
+
+variable "gcp_credentials_encoded" {
+  description = "Base64-encoded Google Cloud credentials"
+}
+
+variable "gcp_project" {
+  description = "Google Cloud Platform project"
+}
+
+variable "gcp_region" {
+  description = "Google Cloud Platform region"
+}
