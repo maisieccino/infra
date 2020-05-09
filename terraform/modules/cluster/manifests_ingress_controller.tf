@@ -261,45 +261,6 @@ resource "kubernetes_role_binding" "ingress_nginx" {
   }
 }
 
-resource "kubernetes_service" "ingress_nginx_controller_admission" {
-  metadata {
-    name      = "ingress-nginx-controller-admission"
-    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/component" = "controller"
-
-      "app.kubernetes.io/instance" = "ingress-nginx"
-
-      "app.kubernetes.io/managed-by" = "Helm"
-
-      "app.kubernetes.io/name" = "ingress-nginx"
-
-      "app.kubernetes.io/version" = "0.32.0"
-
-      "helm.sh/chart" = "ingress-nginx-2.0.3"
-    }
-  }
-
-  spec {
-    port {
-      name        = "https-webhook"
-      port        = 443
-      target_port = "webhook"
-    }
-
-    selector = {
-      "app.kubernetes.io/component" = "controller"
-
-      "app.kubernetes.io/instance" = "ingress-nginx"
-
-      "app.kubernetes.io/name" = "ingress-nginx"
-    }
-
-    type = "ClusterIP"
-  }
-}
-
 resource "kubernetes_service" "ingress_nginx_controller" {
   metadata {
     name      = "ingress-nginx-controller"
@@ -395,18 +356,11 @@ resource "kubernetes_deployment" "ingress_nginx_controller" {
       }
 
       spec {
-        volume {
-          name = "webhook-cert"
-
-          secret {
-            secret_name = kubernetes_secret.ingress_nginx_admission.metadata[0].name
-          }
-        }
 
         container {
           name  = "controller"
           image = "quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.32.0"
-          args  = ["/nginx-ingress-controller", "--publish-service=ingress-nginx/ingress-nginx-controller", "--election-id=ingress-controller-leader", "--ingress-class=nginx", "--configmap=ingress-nginx/ingress-nginx-controller", "--validating-webhook=:8443", "--validating-webhook-certificate=/usr/local/certificates/cert", "--validating-webhook-key=/usr/local/certificates/key"]
+          args  = ["/nginx-ingress-controller", "--publish-service=ingress-nginx/ingress-nginx-controller", "--election-id=ingress-controller-leader", "--ingress-class=nginx", "--configmap=ingress-nginx/ingress-nginx-controller"]
 
           port {
             name           = "http"
@@ -417,12 +371,6 @@ resource "kubernetes_deployment" "ingress_nginx_controller" {
           port {
             name           = "https"
             container_port = 443
-            protocol       = "TCP"
-          }
-
-          port {
-            name           = "webhook"
-            container_port = 8443
             protocol       = "TCP"
           }
 
@@ -451,12 +399,6 @@ resource "kubernetes_deployment" "ingress_nginx_controller" {
               cpu    = "100m"
               memory = "90Mi"
             }
-          }
-
-          volume_mount {
-            name       = "webhook-cert"
-            read_only  = true
-            mount_path = "/usr/local/certificates/"
           }
 
           liveness_probe {
@@ -515,306 +457,6 @@ resource "kubernetes_deployment" "ingress_nginx_controller" {
     }
 
     revision_history_limit = 10
-  }
-}
-
-resource "kubernetes_cluster_role" "ingress_nginx_admission" {
-  metadata {
-    name = "ingress-nginx-admission"
-
-    labels = {
-      "app.kubernetes.io/component" = "admission-webhook"
-
-      "app.kubernetes.io/instance" = "ingress-nginx"
-
-      "app.kubernetes.io/managed-by" = "Helm"
-
-      "app.kubernetes.io/name" = "ingress-nginx"
-
-      "app.kubernetes.io/version" = "0.32.0"
-
-      "helm.sh/chart" = "ingress-nginx-2.0.3"
-    }
-
-    annotations = {
-      "helm.sh/hook" = "pre-install,pre-upgrade,post-install,post-upgrade"
-
-      "helm.sh/hook-delete-policy" = "before-hook-creation,hook-succeeded"
-    }
-  }
-
-  rule {
-    verbs      = ["get", "update"]
-    api_groups = ["admissionregistration.k8s.io"]
-    resources  = ["validatingwebhookconfigurations"]
-  }
-}
-
-resource "kubernetes_cluster_role_binding" "ingress_nginx_admission" {
-  metadata {
-    name = "ingress-nginx-admission"
-
-    labels = {
-      "app.kubernetes.io/component" = "admission-webhook"
-
-      "app.kubernetes.io/instance" = "ingress-nginx"
-
-      "app.kubernetes.io/managed-by" = "Helm"
-
-      "app.kubernetes.io/name" = "ingress-nginx"
-
-      "app.kubernetes.io/version" = "0.32.0"
-
-      "helm.sh/chart" = "ingress-nginx-2.0.3"
-    }
-
-    annotations = {
-      "helm.sh/hook" = "pre-install,pre-upgrade,post-install,post-upgrade"
-
-      "helm.sh/hook-delete-policy" = "before-hook-creation,hook-succeeded"
-    }
-  }
-
-  subject {
-    kind      = "ServiceAccount"
-    name      = kubernetes_service_account.ingress_nginx_admission.metadata[0].name
-    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
-  }
-
-  role_ref {
-    api_group = "rbac.authorization.k8s.io"
-    kind      = "ClusterRole"
-    name      = kubernetes_cluster_role.ingress_nginx_admission.metadata[0].name
-  }
-}
-
-resource "kubernetes_job" "ingress_nginx_admission_create" {
-  metadata {
-    name      = "ingress-nginx-admission-create"
-    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/component" = "admission-webhook"
-
-      "app.kubernetes.io/instance" = "ingress-nginx"
-
-      "app.kubernetes.io/managed-by" = "Helm"
-
-      "app.kubernetes.io/name" = "ingress-nginx"
-
-      "app.kubernetes.io/version" = "0.32.0"
-
-      "helm.sh/chart" = "ingress-nginx-2.0.3"
-    }
-
-    annotations = {
-      "helm.sh/hook" = "pre-install,pre-upgrade"
-
-      "helm.sh/hook-delete-policy" = "before-hook-creation,hook-succeeded"
-    }
-  }
-
-  spec {
-    template {
-      metadata {
-        name = "ingress-nginx-admission-create"
-
-        labels = {
-          "app.kubernetes.io/component" = "admission-webhook"
-
-          "app.kubernetes.io/instance" = "ingress-nginx"
-
-          "app.kubernetes.io/managed-by" = "Helm"
-
-          "app.kubernetes.io/name" = "ingress-nginx"
-
-          "app.kubernetes.io/version" = "0.32.0"
-
-          "helm.sh/chart" = "ingress-nginx-2.0.3"
-        }
-      }
-
-      spec {
-        container {
-          name              = "create"
-          image             = "jettech/kube-webhook-certgen:v1.2.0"
-          args              = ["create", "--host=ingress-nginx-controller-admission,ingress-nginx-controller-admission.ingress-nginx.svc", "--namespace=ingress-nginx", "--secret-name=ingress-nginx-admission"]
-          image_pull_policy = "IfNotPresent"
-        }
-
-        restart_policy       = "OnFailure"
-        service_account_name = "ingress-nginx-admission"
-
-        security_context {
-          run_as_user     = 2000
-          run_as_non_root = true
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_job" "ingress_nginx_admission_patch" {
-  metadata {
-    name      = "ingress-nginx-admission-patch"
-    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/component" = "admission-webhook"
-
-      "app.kubernetes.io/instance" = "ingress-nginx"
-
-      "app.kubernetes.io/managed-by" = "Helm"
-
-      "app.kubernetes.io/name" = "ingress-nginx"
-
-      "app.kubernetes.io/version" = "0.32.0"
-
-      "helm.sh/chart" = "ingress-nginx-2.0.3"
-    }
-
-    annotations = {
-      "helm.sh/hook" = "post-install,post-upgrade"
-
-      "helm.sh/hook-delete-policy" = "before-hook-creation,hook-succeeded"
-    }
-  }
-
-  spec {
-    template {
-      metadata {
-        name = "ingress-nginx-admission-patch"
-
-        labels = {
-          "app.kubernetes.io/component" = "admission-webhook"
-
-          "app.kubernetes.io/instance" = "ingress-nginx"
-
-          "app.kubernetes.io/managed-by" = "Helm"
-
-          "app.kubernetes.io/name" = "ingress-nginx"
-
-          "app.kubernetes.io/version" = "0.32.0"
-
-          "helm.sh/chart" = "ingress-nginx-2.0.3"
-        }
-      }
-
-      spec {
-        container {
-          name  = "patch"
-          image = "jettech/kube-webhook-certgen:v1.2.0"
-          args  = ["patch", "--webhook-name=ingress-nginx-admission", "--namespace=ingress-nginx", "--patch-mutating=false", "--secret-name=ingress-nginx-admission", "--patch-failure-policy=Fail"]
-        }
-
-        restart_policy       = "OnFailure"
-        service_account_name = "ingress-nginx-admission"
-
-        security_context {
-          run_as_user     = 2000
-          run_as_non_root = true
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_role" "ingress_nginx_admission" {
-  metadata {
-    name      = "ingress-nginx-admission"
-    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/component" = "admission-webhook"
-
-      "app.kubernetes.io/instance" = "ingress-nginx"
-
-      "app.kubernetes.io/managed-by" = "Helm"
-
-      "app.kubernetes.io/name" = "ingress-nginx"
-
-      "app.kubernetes.io/version" = "0.32.0"
-
-      "helm.sh/chart" = "ingress-nginx-2.0.3"
-    }
-
-    annotations = {
-      "helm.sh/hook" = "pre-install,pre-upgrade,post-install,post-upgrade"
-
-      "helm.sh/hook-delete-policy" = "before-hook-creation,hook-succeeded"
-    }
-  }
-
-  rule {
-    verbs      = ["get", "create"]
-    api_groups = [""]
-    resources  = ["secrets"]
-  }
-}
-
-resource "kubernetes_role_binding" "ingress_nginx_admission" {
-  metadata {
-    name      = "ingress-nginx-admission"
-    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/component" = "admission-webhook"
-
-      "app.kubernetes.io/instance" = "ingress-nginx"
-
-      "app.kubernetes.io/managed-by" = "Helm"
-
-      "app.kubernetes.io/name" = "ingress-nginx"
-
-      "app.kubernetes.io/version" = "0.32.0"
-
-      "helm.sh/chart" = "ingress-nginx-2.0.3"
-    }
-
-    annotations = {
-      "helm.sh/hook" = "pre-install,pre-upgrade,post-install,post-upgrade"
-
-      "helm.sh/hook-delete-policy" = "before-hook-creation,hook-succeeded"
-    }
-  }
-
-  subject {
-    kind      = "ServiceAccount"
-    name      = kubernetes_service_account.ingress_nginx_admission.metadata[0].name
-    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
-  }
-
-  role_ref {
-    api_group = "rbac.authorization.k8s.io"
-    kind      = "Role"
-    name      = kubernetes_role.ingress_nginx_admission.metadata[0].name
-  }
-}
-
-resource "kubernetes_service_account" "ingress_nginx_admission" {
-  metadata {
-    name      = "ingress-nginx-admission"
-    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
-
-    labels = {
-      "app.kubernetes.io/component" = "admission-webhook"
-
-      "app.kubernetes.io/instance" = "ingress-nginx"
-
-      "app.kubernetes.io/managed-by" = "Helm"
-
-      "app.kubernetes.io/name" = "ingress-nginx"
-
-      "app.kubernetes.io/version" = "0.32.0"
-
-      "helm.sh/chart" = "ingress-nginx-2.0.3"
-    }
-
-    annotations = {
-      "helm.sh/hook" = "pre-install,pre-upgrade,post-install,post-upgrade"
-
-      "helm.sh/hook-delete-policy" = "before-hook-creation,hook-succeeded"
-    }
   }
 }
 
