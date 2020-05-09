@@ -283,6 +283,7 @@ resource "kubernetes_service" "ingress_nginx_controller" {
 
     annotations = {
       "service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol" = "true"
+      "kubernetes.digitalocean.com/load-balancer-id"                     = "foobar"
     }
   }
 
@@ -311,6 +312,12 @@ resource "kubernetes_service" "ingress_nginx_controller" {
 
     type                    = "LoadBalancer"
     external_traffic_policy = "Local"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      metadata[0].annotations["kubernetes.digitalocean.com/load-balancer-id"]
+    ]
   }
 }
 
