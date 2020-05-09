@@ -29,6 +29,7 @@ resource "kubernetes_service_account" "ingress_nginx" {
       "helm.sh/chart" = "ingress-nginx-2.0.3"
     }
   }
+  automount_service_account_token = true
 }
 
 resource "kubernetes_config_map" "ingress_nginx_controller" {
@@ -453,6 +454,7 @@ resource "kubernetes_deployment" "ingress_nginx_controller" {
         termination_grace_period_seconds = 300
         dns_policy                       = "ClusterFirst"
         service_account_name             = "ingress-nginx"
+        automount_service_account_token  = true
       }
     }
 
