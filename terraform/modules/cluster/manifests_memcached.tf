@@ -13,6 +13,12 @@ resource "kubernetes_stateful_set" "memcached" {
     update_strategy {
       type = "RollingUpdate"
     }
+    selector {
+      match_labels = {
+        app     = "memcached"
+        release = "memcache"
+      }
+    }
     template {
       metadata {
         labels = {
@@ -31,13 +37,11 @@ resource "kubernetes_stateful_set" "memcached" {
         affinity {
           pod_anti_affinity {
             required_during_scheduling_ignored_during_execution {
-              pod_affinity_term {
-                topology_key = "kubernetes.io/hostname"
-                label_selector {
-                  match_labels {
-                    app     = "memcached"
-                    release = "memcache"
-                  }
+              topology_key = "kubernetes.io/hostname"
+              label_selector {
+                match_labels = {
+                  app     = "memcached"
+                  release = "memcache"
                 }
               }
             }
@@ -67,7 +71,7 @@ resource "kubernetes_stateful_set" "memcached" {
             initial_delay_seconds = 30
             timeout_seconds       = 5
           }
-          liveness_probe {
+          readiness_probe {
             tcp_socket {
               port = "memcached"
             }
@@ -113,11 +117,11 @@ resource "kubernetes_service" "memcached" {
   spec {
     type = "ClusterIP"
     port {
-      name = "memcached"
-      port = 11211
+      name        = "memcached"
+      port        = 11211
       target_port = "memcached"
     }
-    selector {
+    selector = {
       app = "memcached"
     }
   }
@@ -134,8 +138,8 @@ resource "kubernetes_pod_disruption_budget" "memcached" {
   }
   spec {
     selector {
-      match_labels {
-        app = "memcached"
+      match_labels = {
+        app     = "memcached"
         release = "memcached"
       }
     }
