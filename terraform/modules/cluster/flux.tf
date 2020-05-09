@@ -1,5 +1,5 @@
 data "github_repository" "flux_repo" {
-  full_name = "mbellgb/infra"
+  full_name = "infra"
 }
 
 resource "tls_private_key" "flux_key" {
