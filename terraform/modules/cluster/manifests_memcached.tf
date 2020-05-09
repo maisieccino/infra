@@ -34,19 +34,6 @@ resource "kubernetes_stateful_set" "memcached" {
         security_context {
           fs_group = 1001
         }
-        affinity {
-          pod_anti_affinity {
-            required_during_scheduling_ignored_during_execution {
-              topology_key = "kubernetes.io/hostname"
-              label_selector {
-                match_labels = {
-                  app     = "memcached"
-                  release = "memcache"
-                }
-              }
-            }
-          }
-        }
         container {
           name  = "memcached"
           image = "memcached:1.5.20-alpine"
