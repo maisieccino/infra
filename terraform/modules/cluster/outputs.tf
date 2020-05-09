@@ -9,7 +9,3 @@ output "api_token" {
 output "ca_certificate" {
   value = digitalocean_kubernetes_cluster.main.kube_config[0].cluster_ca_certificate
 }
-
-output "cluster_ingress_address" {
-  value = kubernetes_service.ingress_nginx_controller.ip
-}
