@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: helm-v3-operator
+  name: helm-operator
   namespace: flux
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: helm-v3-operator
+      name: helm-operator
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        name: helm-v3-operator
+        name: helm-operator
       annotations:
         prometheus.io/scrape: "true"
     spec:
@@ -22,7 +22,7 @@ spec:
       volumes:
       - name: git-key
         secret:
-          secretName: helm-operator-git-key
+          secretName: flux-git-deploy
           defaultMode: 0400
       containers:
       - name: helm-operator
