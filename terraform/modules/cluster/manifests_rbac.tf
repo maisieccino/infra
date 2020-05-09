@@ -6,6 +6,7 @@ resource "kubernetes_service_account" "flux" {
       name = "flux"
     }
   }
+  automount_service_account_token = true
 }
 
 resource "kubernetes_cluster_role" "flux" {

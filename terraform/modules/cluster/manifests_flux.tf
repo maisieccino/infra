@@ -17,7 +17,8 @@ resource "kubernetes_deployment" "flux" {
         }
       }
       spec {
-        service_account_name = kubernetes_service_account.flux.metadata[0].name
+        service_account_name            = kubernetes_service_account.flux.metadata[0].name
+        automount_service_account_token = true
         volume {
           name = "git-key"
           secret {
