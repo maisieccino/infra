@@ -1,5 +1,5 @@
 data "github_repository" "flux_repo" {
-  full_name = "infra"
+  name = "infra"
 }
 
 resource "tls_private_key" "flux_key" {
@@ -9,7 +9,7 @@ resource "tls_private_key" "flux_key" {
 
 resource "github_repository_deploy_key" "flux_key" {
   title      = "Flux Deployment Key"
-  repository = data.github_repository.flux_repo.full_name
+  repository = data.github_repository.flux_repo.name
   read_only  = false
   key        = tls_private_key.flux_key.public_key_openssh
 }

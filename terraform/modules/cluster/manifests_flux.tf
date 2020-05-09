@@ -23,6 +23,7 @@ resource "kubernetes_deployment" "flux" {
           secret {
             secret_name  = kubernetes_secret.flux_key.metadata[0].name
             default_mode = "0400"
+            optional     = false
           }
         }
         volume {
