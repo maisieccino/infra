@@ -13,7 +13,7 @@ resource "kubernetes_namespace" "ingress_nginx" {
 resource "kubernetes_service_account" "ingress_nginx" {
   metadata {
     name      = "ingress-nginx"
-    namespace = "ingress-nginx"
+    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
 
     labels = {
       "app.kubernetes.io/component" = "controller"
@@ -34,7 +34,7 @@ resource "kubernetes_service_account" "ingress_nginx" {
 resource "kubernetes_config_map" "ingress_nginx_controller" {
   metadata {
     name      = "ingress-nginx-controller"
-    namespace = "ingress-nginx"
+    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
 
     labels = {
       "app.kubernetes.io/component" = "controller"
@@ -135,21 +135,21 @@ resource "kubernetes_cluster_role_binding" "ingress_nginx" {
 
   subject {
     kind      = "ServiceAccount"
-    name      = "ingress-nginx"
-    namespace = "ingress-nginx"
+    name      = kubernetes_service_account.ingress_nginx.metadata[0].name
+    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
   }
 
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "ClusterRole"
-    name      = "ingress-nginx"
+    name      = kubernetes_cluster_role.ingress_nginx.metadata[0].name
   }
 }
 
 resource "kubernetes_role" "ingress_nginx" {
   metadata {
     name      = "ingress-nginx"
-    namespace = "ingress-nginx"
+    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
 
     labels = {
       "app.kubernetes.io/component" = "controller"
@@ -231,7 +231,7 @@ resource "kubernetes_role" "ingress_nginx" {
 resource "kubernetes_role_binding" "ingress_nginx" {
   metadata {
     name      = "ingress-nginx"
-    namespace = "ingress-nginx"
+    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
 
     labels = {
       "app.kubernetes.io/component" = "controller"
@@ -250,21 +250,21 @@ resource "kubernetes_role_binding" "ingress_nginx" {
 
   subject {
     kind      = "ServiceAccount"
-    name      = "ingress-nginx"
-    namespace = "ingress-nginx"
+    name      = kubernetes_service_account.ingress_nginx.metadata[0].name
+    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
   }
 
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "Role"
-    name      = "ingress-nginx"
+    name      = kubernetes_role.ingress_nginx.metadata[0].name
   }
 }
 
 resource "kubernetes_service" "ingress_nginx_controller_admission" {
   metadata {
     name      = "ingress-nginx-controller-admission"
-    namespace = "ingress-nginx"
+    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
 
     labels = {
       "app.kubernetes.io/component" = "controller"
@@ -303,7 +303,7 @@ resource "kubernetes_service" "ingress_nginx_controller_admission" {
 resource "kubernetes_service" "ingress_nginx_controller" {
   metadata {
     name      = "ingress-nginx-controller"
-    namespace = "ingress-nginx"
+    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
 
     labels = {
       "app.kubernetes.io/component" = "controller"
@@ -355,7 +355,7 @@ resource "kubernetes_service" "ingress_nginx_controller" {
 resource "kubernetes_deployment" "ingress_nginx_controller" {
   metadata {
     name      = "ingress-nginx-controller"
-    namespace = "ingress-nginx"
+    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
 
     labels = {
       "app.kubernetes.io/component" = "controller"
@@ -399,7 +399,7 @@ resource "kubernetes_deployment" "ingress_nginx_controller" {
           name = "webhook-cert"
 
           secret {
-            secret_name = "ingress-nginx-admission"
+            secret_name = kubernetes_secret.ingress_nginx_admission.metadata[0].name
           }
         }
 
@@ -577,21 +577,21 @@ resource "kubernetes_cluster_role_binding" "ingress_nginx_admission" {
 
   subject {
     kind      = "ServiceAccount"
-    name      = "ingress-nginx-admission"
-    namespace = "ingress-nginx"
+    name      = kubernetes_service_account.ingress_nginx_admission.metadata[0].name
+    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
   }
 
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "ClusterRole"
-    name      = "ingress-nginx-admission"
+    name      = kubernetes_cluster_role.ingress_nginx_admission.metadata[0].name
   }
 }
 
 resource "kubernetes_job" "ingress_nginx_admission_create" {
   metadata {
     name      = "ingress-nginx-admission-create"
-    namespace = "ingress-nginx"
+    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
 
     labels = {
       "app.kubernetes.io/component" = "admission-webhook"
@@ -657,7 +657,7 @@ resource "kubernetes_job" "ingress_nginx_admission_create" {
 resource "kubernetes_job" "ingress_nginx_admission_patch" {
   metadata {
     name      = "ingress-nginx-admission-patch"
-    namespace = "ingress-nginx"
+    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
 
     labels = {
       "app.kubernetes.io/component" = "admission-webhook"
@@ -722,7 +722,7 @@ resource "kubernetes_job" "ingress_nginx_admission_patch" {
 resource "kubernetes_role" "ingress_nginx_admission" {
   metadata {
     name      = "ingress-nginx-admission"
-    namespace = "ingress-nginx"
+    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
 
     labels = {
       "app.kubernetes.io/component" = "admission-webhook"
@@ -755,7 +755,7 @@ resource "kubernetes_role" "ingress_nginx_admission" {
 resource "kubernetes_role_binding" "ingress_nginx_admission" {
   metadata {
     name      = "ingress-nginx-admission"
-    namespace = "ingress-nginx"
+    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
 
     labels = {
       "app.kubernetes.io/component" = "admission-webhook"
@@ -780,21 +780,21 @@ resource "kubernetes_role_binding" "ingress_nginx_admission" {
 
   subject {
     kind      = "ServiceAccount"
-    name      = "ingress-nginx-admission"
-    namespace = "ingress-nginx"
+    name      = kubernetes_service_account.ingress_nginx_admission.metadata[0].name
+    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
   }
 
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "Role"
-    name      = "ingress-nginx-admission"
+    name      = kubernetes_role.ingress_nginx_admission.metadata[0].name
   }
 }
 
 resource "kubernetes_service_account" "ingress_nginx_admission" {
   metadata {
     name      = "ingress-nginx-admission"
-    namespace = "ingress-nginx"
+    namespace = kubernetes_namespace.ingress_nginx.metadata[0].name
 
     labels = {
       "app.kubernetes.io/component" = "admission-webhook"
