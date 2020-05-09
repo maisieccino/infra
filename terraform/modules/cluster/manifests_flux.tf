@@ -39,11 +39,11 @@ resource "kubernetes_deployment" "flux" {
           resources {
             requests {
               cpu    = "250m"
-              memory = "1Gi"
+              memory = "250M"
             }
             limits {
               cpu    = "1000m"
-              memory = "1Gi"
+              memory = "250M"
             }
           }
           port {
