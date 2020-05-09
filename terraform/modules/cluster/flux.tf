@@ -4,14 +4,14 @@ data "github_repository" "flux_repo" {
 
 resource "tls_private_key" "flux_key" {
   algorithm = "RSA"
-  rsa_bits = 4096
+  rsa_bits  = 4096
 }
 
 resource "github_repository_deploy_key" "flux_key" {
-  title = "Flux Deployment Key"
+  title      = "Flux Deployment Key"
   repository = data.github_repository.flux_repo.full_name
-  read_only = false
-  key = tls_private_key.flux_key.public_key_openssh
+  read_only  = false
+  key        = tls_private_key.flux_key.public_key_openssh
 }
 
 // Flux cluster resources
@@ -29,7 +29,7 @@ resource "kubernetes_namespace" "flux" {
   }
 
   lifecycle {
-    ignore_changes=  [
+    ignore_changes = [
       metadata[0].annotations["fluxcd.io/sync-checksum"],
       metadata[0].labels["fluxcd.io/sync-gc-mark"]
     ]
@@ -38,7 +38,7 @@ resource "kubernetes_namespace" "flux" {
 
 resource "kubernetes_secret" "flux_key" {
   metadata {
-    name = "flux-git-deploy"
+    name      = "flux-git-deploy"
     namespace = kubernetes_namespace.flux.metadata[0].name
   }
 

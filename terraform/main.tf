@@ -10,10 +10,10 @@ provider "cloudflare" {
 }
 
 provider "github" {
-  version = "2.4.0"
-  token = var.github_token
+  version      = "2.4.0"
+  token        = var.github_token
   organization = "mbellgb"
-  individual = false
+  individual   = false
 }
 
 // K8s cluster initialisation

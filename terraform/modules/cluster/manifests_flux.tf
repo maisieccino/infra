@@ -1,6 +1,6 @@
 resource "kubernetes_deployment" "flux" {
   metadata {
-    name = "flux"
+    name      = "flux"
     namespace = kubernetes_namespace.flux.metadata[0].name
   }
   spec {
@@ -21,7 +21,7 @@ resource "kubernetes_deployment" "flux" {
         volume {
           name = "git-key"
           secret {
-            secret_name = kubernetes_secret.flux_key.metadata[0].name
+            secret_name  = kubernetes_secret.flux_key.metadata[0].name
             default_mode = "0400"
           }
         }
@@ -32,16 +32,16 @@ resource "kubernetes_deployment" "flux" {
           }
         }
         container {
-          name = "flux"
-          image = "docker.io/fluxcd/flux:1.18.0"
+          name              = "flux"
+          image             = "docker.io/fluxcd/flux:1.18.0"
           image_pull_policy = "IfNotPresent"
           resources {
             requests {
-              cpu = "250m"
+              cpu    = "250m"
               memory = "1Gi"
             }
             limits {
-              cpu = "1000m"
+              cpu    = "1000m"
               memory = "1Gi"
             }
           }
@@ -54,18 +54,18 @@ resource "kubernetes_deployment" "flux" {
               path = "/api/flux/v6/identity.pub"
             }
             initial_delay_seconds = 5
-            timeout_seconds = 5
+            timeout_seconds       = 5
           }
           volume_mount {
-            name = "git-key"
+            name       = "git-key"
             mount_path = "/etc/fluxd/ssh"
-            read_only = true
+            read_only  = true
           }
           volume_mount {
-            name = "git-keygen"
+            name       = "git-keygen"
             mount_path = "var/fluxd/keygen"
           }
-          args [
+          args = [
             "--memcached-service=",
             "--ssh-keygen-dir=/var/fluxd/keygen",
             "--git-url=git@github.com:mbellgb/infra.git",
