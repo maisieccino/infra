@@ -21,11 +21,11 @@ provider "github" {
 module "cluster" {
   source = "./modules/cluster"
 }
-
-module "cluster_resources" {
-  source = "./modules/cluster_resources"
-}
-
+#
+# module "cluster_resources" {
+#   source = "./modules/cluster_resources"
+# }
+#
 provider "kubernetes" {
   load_config_file = false
   host             = module.cluster.api_endpoint
