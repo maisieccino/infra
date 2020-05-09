@@ -1,0 +1,21 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: blog
+  namespace: blog
+spec:
+  releaseName: blog
+  chart:
+    repository: https://charts.bitnami.com/bitnami
+    name: ghost
+    version: 10.0.2
+  values:
+    peristence:
+      enabled: false
+    service:
+      type: ClusterIP
+    mariadb:
+      master:
+        peristence:
+          enabled: false
