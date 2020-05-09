@@ -136,3 +136,11 @@ resource "cloudflare_record" "dkim_mbell_dev" {
   value   = "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhcpXRbeFBqvpvS67jL6udxp/DGdjooQtikSS7ksZ9QuPgF2uKrVUB1KdEEho5NuQShr7nHw7c57ujC08hugH8srlAWMznBd4j68k24gjF8YUgLyb2Q4SMFQVfJfS61Me+VHHzIzU7NE6NAMCj1LfUVnNpIz3srY7kpk3GauHTh0RAKp5MOItR4ISHyBDYFYyF5kIR2uhUVd7Bgye2TCRiF5RK7EfoghrT+XAO/FrhEO7AyPhgG2OQWRD4X6F1XxDHsqiugzApwZb9OsaqDbdmzxI88U4X0eDGZSgYKRFsv5NBdkf1QiNsV1D3ZNkiAdV4Nn5QPsrkjlqTcLzFufzJQIDAQAB"
   ttl     = var.dns_record_ttl
 }
+
+resource "cloudflare_record" "k8s_mbell_dev" {
+  zone_id = cloudflare_zone.mbell_dev.id
+  name = "k8s"
+  type = "A"
+  value = module.cluster.cluster_ingress_address
+  ttl     = var.dns_record_ttl
+}

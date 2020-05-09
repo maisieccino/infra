@@ -11,5 +11,5 @@ output "ca_certificate" {
 }
 
 output "cluster_ingress_address" {
-  value = kubernetes_service.ingress_nginx_controller.ip
+  value = kubernetes_service.ingress_nginx_controller.load_balancer_ip
 }
