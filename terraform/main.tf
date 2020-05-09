@@ -16,10 +16,23 @@ provider "github" {
   individual   = false
 }
 
-// K8s cluster initialisation
+// K8s cluster.
 
 module "cluster" {
   source = "./modules/cluster"
+}
+
+module "cluster_resources" {
+  source = "./modules/cluster_resources"
+}
+
+provider "kubernetes" {
+  load_config_file = false
+  host             = module.cluster.api_endpoint
+  token            = module.cluster.api_token
+  cluster_ca_certificate = base64decode(
+    module.cluster.ca_certificate
+  )
 }
 
 # // Minecraft server and related DNS record.

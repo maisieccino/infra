@@ -141,6 +141,6 @@ resource "cloudflare_record" "k8s_mbell_dev" {
   zone_id = cloudflare_zone.mbell_dev.id
   name = "k8s"
   type = "A"
-  value = module.cluster.cluster_ingress_address
+  value = module.cluster_resources.cluster_ingress_address
   ttl     = var.dns_record_ttl
 }
