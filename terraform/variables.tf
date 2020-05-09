@@ -26,3 +26,7 @@ variable "dns_record_ttl" {
 variable "le_email" {
   description = "Let's Encrypt email"
 }
+
+variable "github_token" {
+  description = "Token to authenticate with GitHub"
+}
