@@ -144,3 +144,27 @@ resource "cloudflare_record" "dkim_mbell_dev" {
 #   value = module.cluster_resources.cluster_ingress_address
 #   ttl     = var.dns_record_ttl
 # }
+
+resource "cloudflare_record" "mail_mbell_dev" {
+  zone_id = cloudflare_zone.mbell_dev.id
+  name    = "mail"
+  type    = "CNAME"
+  value   = "ghs.googlehosted.com"
+  ttl     = var.dns_record_ttl
+}
+
+resource "cloudflare_record" "calendar_mbell_dev" {
+  zone_id = cloudflare_zone.mbell_dev.id
+  name    = "calendar"
+  type    = "CNAME"
+  value   = "ghs.googlehosted.com"
+  ttl     = var.dns_record_ttl
+}
+
+resource "cloudflare_record" "docs_mbell_dev" {
+  zone_id = cloudflare_zone.mbell_dev.id
+  name    = "docs"
+  type    = "CNAME"
+  value   = "ghs.googlehosted.com"
+  ttl     = var.dns_record_ttl
+}
