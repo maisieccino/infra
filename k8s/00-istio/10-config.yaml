@@ -12,6 +12,12 @@ metadata:
 spec:
   profile: default
   components:
+    base:
+      k8s:
+        resources:
+          cpu: 200m
+          memory: 512Mi
+        replicaCount: 1
     ingressGateways:
     - name: istio-ingressgateway
       enabled: true
