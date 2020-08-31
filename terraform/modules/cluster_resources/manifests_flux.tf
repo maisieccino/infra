@@ -35,7 +35,7 @@ resource "kubernetes_deployment" "flux" {
         }
         container {
           name              = "flux"
-          image             = "docker.io/fluxcd/flux:1.18.0"
+          image             = "docker.io/fluxcd/flux:1.20.2"
           image_pull_policy = "IfNotPresent"
           resources {
             requests {
