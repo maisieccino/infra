@@ -1,0 +1,12 @@
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: ingressgateway-cert-staging
+  namespace: istio-system
+spec:
+  dnsNames:
+    - "*.k8s.mbell.dev"
+  secretName: ingressgateway-staging-tls
+  issuerRef:
+    name: letsencrypt-staging
