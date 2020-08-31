@@ -71,7 +71,7 @@ resource "kubernetes_deployment" "flux" {
             "--memcached-service=",
             "--ssh-keygen-dir=/var/fluxd/keygen",
             "--git-url=git@github.com:mbellgb/infra.git",
-            "--git-branch=master",
+            "--git-branch=main",
             "--git-path=k8s",
             "--git-label=flux-sync",
             "--git-user=Flux",
