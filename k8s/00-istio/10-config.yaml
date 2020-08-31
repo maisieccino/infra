@@ -16,8 +16,10 @@ spec:
       k8s:
         hpaSpec: {}
         resources:
-          cpu: 200m
-          memory: 512Mi
+          requests: &istiod_resources
+            cpu: 200m
+            memory: 512Mi
+          limits: *istiod_resources
         replicaCount: 1
     ingressGateways:
     - name: istio-ingressgateway
