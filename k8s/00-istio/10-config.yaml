@@ -12,8 +12,9 @@ metadata:
 spec:
   profile: default
   components:
-    base:
+    pilot:
       k8s:
+        hpaSpec: {}
         resources:
           cpu: 200m
           memory: 512Mi
