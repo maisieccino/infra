@@ -1,0 +1,18 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: ghost
+  namespace: blog
+spec:
+  hosts:
+  - ghost.mbell.dev
+  gateways:
+  - mesh
+  - istio-system/ingressgateway
+  http:
+  - route:
+    - destination:
+        host: blog-ghost.blog.svc.cluster.local
+        port:
+          number: 80
