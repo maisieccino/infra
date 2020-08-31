@@ -17,4 +17,4 @@ spec:
     ingressShim:
       defaultIssuerName: letsencrypt-staging
       defaultIssuerKind: ClusterIssuer
-      defaultACMEChallengeType: http01
+      defaultACMEChallengeType: dns01

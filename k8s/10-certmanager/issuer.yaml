@@ -3,6 +3,7 @@ apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
 metadata:
   name: letsencrypt-staging
+  namespace: kube-system
 spec:
   acme:
     email: matt+certmanager@mbell.dev
@@ -10,10 +11,8 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-staging-tls
     solvers:
-    - http01:
-        ingress:
-          class: istio
-          podTemplate:
-            metadata:
-              annotations:
-                sidecar.istio.io/inject: "true"
+    - dns01:
+        cloudflare:
+          apiTokenSecretRef:
+            name: external-dns-cloudflare
+            key: CF_API_TOKEN
