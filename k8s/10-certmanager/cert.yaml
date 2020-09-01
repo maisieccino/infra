@@ -10,3 +10,4 @@ spec:
   secretName: ingressgateway-staging-tls
   issuerRef:
     name: letsencrypt-staging
+    kind: ClusterIssuer
