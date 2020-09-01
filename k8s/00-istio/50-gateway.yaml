@@ -22,4 +22,4 @@ spec:
     hosts: *hosts
     tls:
       mode: SIMPLE
-      credential-name: ingressgateway-staging-tls
+      credentialName: ingressgateway-staging-tls

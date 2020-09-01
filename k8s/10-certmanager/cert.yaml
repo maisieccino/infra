@@ -6,7 +6,7 @@ metadata:
   namespace: istio-system
 spec:
   dnsNames:
-    - "*.k8s.mbell.dev"
+  - "*.k8s.mbell.dev"
   secretName: ingressgateway-staging-tls
   issuerRef:
     name: letsencrypt-staging
