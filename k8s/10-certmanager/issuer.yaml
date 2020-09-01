@@ -6,9 +6,26 @@ metadata:
 spec:
   acme:
     email: matt+certmanager@mbell.dev
-    server: https://acme-v02.api.letsencrypt.org/directory
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-staging-tls
+    solvers:
+    - dns01:
+        cloudflare:
+          apiTokenSecretRef:
+            name: issuer-cloudflare
+            key: CF_API_TOKEN
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    email: matt+certmanager@mbell.dev
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-tls
     solvers:
     - dns01:
         cloudflare:

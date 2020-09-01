@@ -11,3 +11,16 @@ spec:
   issuerRef:
     name: letsencrypt-staging
     kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: ingressgateway-cert
+  namespace: istio-system
+spec:
+  dnsNames:
+  - "*.k8s.mbell.dev"
+  secretName: ingressgateway-tls
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
