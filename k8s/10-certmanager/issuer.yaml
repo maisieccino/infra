@@ -3,7 +3,6 @@ apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
 metadata:
   name: letsencrypt-staging
-  namespace: kube-system
 spec:
   acme:
     email: matt+certmanager@mbell.dev
@@ -14,5 +13,5 @@ spec:
     - dns01:
         cloudflare:
           apiTokenSecretRef:
-            name: external-dns-cloudflare
+            name: issuer-cloudflare
             key: CF_API_TOKEN
