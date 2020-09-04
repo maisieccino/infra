@@ -1,7 +1,7 @@
 resource "digitalocean_kubernetes_cluster" "main" {
   name    = "main"
   region  = "lon1"
-  version = "1.18.6-do.0"
+  version = "1.18.8-do.0"
 
   node_pool {
     name       = "default"

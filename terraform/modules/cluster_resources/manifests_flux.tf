@@ -31,6 +31,7 @@ resource "kubernetes_deployment" "flux" {
           name = "git-keygen"
           empty_dir {
             medium = "Memory"
+            size_limit = 0
           }
         }
         container {
