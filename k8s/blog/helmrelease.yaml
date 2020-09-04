@@ -12,6 +12,7 @@ spec:
     version: 10.0.2
   values:
     ghostHost: blog.k8s.mbell.dev
+    ghostProtocol: https
     persistence:
       enabled: false
     service:
@@ -19,4 +20,4 @@ spec:
     mariadb:
       master:
         persistence:
-          enabled: false
+          enabled: true
