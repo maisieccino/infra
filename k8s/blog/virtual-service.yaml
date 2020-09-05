@@ -13,6 +13,6 @@ spec:
   http:
   - route:
     - destination:
-        host: blog-ghost.blog.svc.cluster.local
+        host: ghost.blog.svc.cluster.local
         port:
           number: 80

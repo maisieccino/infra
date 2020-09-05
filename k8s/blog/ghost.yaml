@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ghost
+  namespace: blog
+  labels:
+    app: ghost
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ghost
+  template:
+    metadata:
+      labels:
+        app: ghost
+    spec:
+      containers:
+      - name: ghost
+        image: ghost:3.31.5-alpine
+        ports:
+        - name: http
+          protocol: TCP
+          containerPort: 2368
+        volumeMounts:
+        - name: ghost-content
+          mountPath: /var/lib/ghost/content
+      volumes:
+      - name: ghost-content
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ghost
+  namespace: blog
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: http
+  selector:
+    app: ghost
