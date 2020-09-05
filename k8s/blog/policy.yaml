@@ -1,0 +1,36 @@
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-ingress-to-ghost
+  namespace: blog
+spec:
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"
+  selector:
+    matchLabels:
+      app: ghost
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-ghost-to-db
+  namespace: blog
+spec:
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - "cluster.local/ns/blog/sa/ghost"
+    to:
+    - operation:
+        ports:
+        - "3306"
+  selector:
+    matchLabels:
+      app: mariadb

@@ -11,6 +11,8 @@ metadata:
   name: istio-controlplane
 spec:
   profile: default
+  meshConfig:
+    accessLogFile: /dev/stdout
   components:
     pilot:
       k8s:
@@ -30,3 +32,8 @@ spec:
             cpu: 100m
             memory: 128Mi
           limits: *ingress_resources
+  addonComponents:
+    grafana:
+      enabled: true
+    kiali:
+      enabled: true

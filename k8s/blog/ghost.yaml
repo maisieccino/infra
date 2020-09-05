@@ -1,4 +1,10 @@
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ghost
+  namespace: blog
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,6 +22,7 @@ spec:
       labels:
         app: ghost
     spec:
+      serviceAccount: ghost
       containers:
       - name: ghost
         image: ghost:3.31.5-alpine
@@ -23,6 +30,22 @@ spec:
         - name: http
           protocol: TCP
           containerPort: 2368
+        env:
+        - name: url
+          value: https://blog.k8s.mbell.dev
+        - name: database__client
+          value: mysql
+        - name: database__connection__host
+          value: db
+        - name: database__connection__user
+          value: ghost
+        - name: database__connection__password
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: mariadb-password
+        - name: database__connection__database
+          value: ghost
         volumeMounts:
         - name: ghost-content
           mountPath: /var/lib/ghost/content

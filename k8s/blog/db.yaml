@@ -1,0 +1,28 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: db
+  namespace: blog
+spec:
+  releaseName: db
+  chart:
+    repository: https://charts.bitnami.com/bitnami
+    name: mariadb
+    version: 7.9.3
+  values:
+    fullnameOverride: db
+    rbac:
+      create: true
+    existingSecret: db-secret
+    db:
+      name: ghost
+      user: ghost
+    replication:
+      enabled: false
+    master:
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "false"
+      persistence:
+        enabled: false
+        size: 2Gi
