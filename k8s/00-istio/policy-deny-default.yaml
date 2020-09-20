@@ -1,4 +1,3 @@
----
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -17,3 +16,5 @@ spec:
   selector:
     matchLabels:
       app: istio-ingressgateway
+  rules:
+  - {}
