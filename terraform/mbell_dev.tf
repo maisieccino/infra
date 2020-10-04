@@ -6,14 +6,6 @@ resource "cloudflare_zone" "mbell_dev" {
   zone = "mbell.dev"
 }
 
-resource "cloudflare_record" "blog_mbell_dev" {
-  zone_id = cloudflare_zone.mbell_dev.id
-  name    = "blog"
-  type    = "A"
-  value   = "35.190.165.107"
-  ttl     = var.dns_record_ttl
-}
-
 resource "cloudflare_record" "root_mbell_dev" {
   zone_id = cloudflare_zone.mbell_dev.id
   name    = "mbell.dev"
