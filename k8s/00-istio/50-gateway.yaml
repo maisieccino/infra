@@ -12,6 +12,7 @@ spec:
       name: http
       protocol: HTTP
     hosts: &hosts
+    - blog.mbell.dev
     - blog.k8s.mbell.dev
     tls:
       httpsRedirect: false

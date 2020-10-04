@@ -45,7 +45,7 @@ spec:
           containerPort: 2368
         env:
         - name: url
-          value: https://blog.k8s.mbell.dev
+          value: https://blog.mbell.dev
         - name: database__client
           value: mysql
         - name: database__connection__host

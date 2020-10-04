@@ -6,11 +6,17 @@ metadata:
   namespace: blog
 spec:
   hosts:
+  - blog.mbell.dev
   - blog.k8s.mbell.dev
   gateways:
   - mesh
   - istio-system/ingressgateway
   http:
+  - match:
+      authority:
+        exact: blog.k8s.mbell.dev
+    redirect:
+      authority: blog.mbell.dev
   - route:
     - destination:
         host: ghost.blog.svc.cluster.local
