@@ -24,5 +24,6 @@ spec:
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "false"
       persistence:
-        enabled: false
+        enabled: true
         size: 2Gi
+        storageClass: do-block-storage

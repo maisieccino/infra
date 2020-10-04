@@ -5,6 +5,19 @@ metadata:
   name: ghost
   namespace: blog
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ghost-content
+  namespace: blog
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: do-block-storage
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -51,7 +64,8 @@ spec:
           mountPath: /var/lib/ghost/content
       volumes:
       - name: ghost-content
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: ghost-content
 ---
 apiVersion: v1
 kind: Service
