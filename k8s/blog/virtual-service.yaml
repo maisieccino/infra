@@ -13,7 +13,7 @@ spec:
   - istio-system/ingressgateway
   http:
   - match:
-      authority:
+    - authority:
         exact: blog.k8s.mbell.dev
     redirect:
       authority: blog.mbell.dev
