@@ -1,0 +1,13 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: vault
+  namespace: vault
+spec:
+  releaseName: cert-manager
+  chart:
+    repository: https://helm.releases.hashicorp.com
+    name: vault
+    version: v0.8.0
+  values: {}
