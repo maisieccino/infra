@@ -30,14 +30,14 @@ spec:
   selector:
     matchLabels:
       app: ghost
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
         app: ghost
     spec:
       serviceAccount: ghost
-      strategy:
-        type: Recreate
       containers:
       - name: ghost
         image: ghost:3.37.1-alpine
