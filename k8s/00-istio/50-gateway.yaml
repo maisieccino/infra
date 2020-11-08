@@ -14,6 +14,7 @@ spec:
     hosts: &hosts
     - blog.mbell.dev
     - blog.k8s.mbell.dev
+    - vault.k8s.mbell.dev
     tls:
       httpsRedirect: false
   - port:

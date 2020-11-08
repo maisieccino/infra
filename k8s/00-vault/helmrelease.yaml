@@ -5,9 +5,34 @@ metadata:
   name: vault
   namespace: vault
 spec:
-  releaseName: cert-manager
+  releaseName: vault
   chart:
     repository: https://helm.releases.hashicorp.com
     name: vault
     version: v0.8.0
-  values: {}
+  values:
+    global:
+      tlsDisable: true
+    injector:
+      namespaceSelector:
+        matchLabels:
+          vault-injection: enabled
+    server:
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "false"
+      dataStorage:
+        size: 8Gi
+        storageClass: do-block-storage
+      auditStorage:
+        enabled: false
+      image:
+        volumes:
+        - name: gcp-auth-credentials
+          secret:
+            secretName: gcp-auth-credentials
+        volumeMounts:
+        - name: gcp-auth-credentials
+          readOnly: true
+          mountPath: /tmp/gcp-auth
+    ui:
+      enabled: true
