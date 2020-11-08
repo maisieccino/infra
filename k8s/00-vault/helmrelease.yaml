@@ -25,14 +25,13 @@ spec:
         storageClass: do-block-storage
       auditStorage:
         enabled: false
-      image:
-        volumes:
-        - name: gcp-auth-credentials
-          secret:
-            secretName: gcp-auth-credentials
-        volumeMounts:
-        - name: gcp-auth-credentials
-          readOnly: true
-          mountPath: /tmp/gcp-auth
+      volumes:
+      - name: gcp-auth-credentials
+        secret:
+          secretName: gcp-auth-credentials
+      volumeMounts:
+      - name: gcp-auth-credentials
+        readOnly: true
+        mountPath: /tmp/gcp-auth
     ui:
       enabled: true
