@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: matt-bell-wtf
+  namespace: istio-system
+spec:
+  gateways:
+  - mesh
+  - ingressgateway
+  hosts:
+  - matt.bell.wtf
+  http:
+  - redirect:
+      authority: mbell.dev
