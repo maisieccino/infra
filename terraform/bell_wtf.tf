@@ -39,6 +39,6 @@ resource "cloudflare_record" "nacl_bell_wtf" {
   zone_id = cloudflare_zone.bell_wtf.id
   type   = "CNAME"
   name   = "nacl"
-  value  = "mbellgb.github.io."
+  value  = "mbellgb.github.io"
   ttl = var.dns_record_ttl
 }
