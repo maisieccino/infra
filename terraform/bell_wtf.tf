@@ -23,17 +23,12 @@ resource "digitalocean_record" "matt_bell_wtf" {
   value  = "mbellgb.github.io."
 }
 
-data "cloudflare_zones" "bell_wtf" {
-  filter {
-    name = "bell.wtf"
-  }
+resource "cloudflare_zone" "bell_wtf" {
+  zone = "bell.wtf"
 }
-# resource "cloudflare_zone" "bell_wtf" {
-#   zone = "bell.wtf"
-# }
 
 resource "cloudflare_record" "bell_wtf_txt" {
-  zone_id = data.cloudflare_zones.bell_wtf.zones[0].id
+  zone_id = cloudflare_zone.bell_wtf.id
   type   = "TXT"
   name   = "@"
   value  = "google-site-verification=EOJkj2u4aswRLisMLCTtQSu0EOrHLc8guHUU4ZKGAUc"
@@ -41,7 +36,7 @@ resource "cloudflare_record" "bell_wtf_txt" {
 }
 
 resource "cloudflare_record" "nacl_bell_wtf" {
-  zone_id = data.cloudflare_zones.bell_wtf.zones[0].id
+  zone_id = cloudflare_zone.bell_wtf.id
   type   = "CNAME"
   name   = "nacl"
   value  = "mbellgb.github.io."
@@ -49,7 +44,7 @@ resource "cloudflare_record" "nacl_bell_wtf" {
 }
 
 resource "cloudflare_record" "matt_bell_wtf" {
-  zone_id = data.cloudflare_zones.bell_wtf.zones[0].id
+  zone_id = cloudflare_zone.bell_wtf.id
   type   = "CNAME"
   name   = "matt"
   value  = "mbellgb.github.io."
