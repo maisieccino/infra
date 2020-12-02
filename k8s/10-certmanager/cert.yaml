@@ -8,6 +8,7 @@ spec:
   dnsNames:
   - "*.mbell.dev"
   - "*.k8s.mbell.dev"
+  - "*.bell.wtf"
   secretName: ingressgateway-staging-tls
   issuerRef:
     name: letsencrypt-staging
@@ -22,6 +23,7 @@ spec:
   dnsNames:
   - "*.mbell.dev"
   - "*.k8s.mbell.dev"
+  - "*.bell.wtf"
   secretName: ingressgateway-tls
   issuerRef:
     name: letsencrypt
