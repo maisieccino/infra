@@ -61,6 +61,7 @@ spec:
         - --source=ingress
         - --source=istio-gateway
         - --domain-filter=mbell.dev # (optional) limit to only example.com domains; change to match the zone created above.
+        - --domain-filter=bell.wtf
         - --provider=cloudflare
         envFrom:
         - secretRef:
