@@ -14,6 +14,7 @@ spec:
     global:
       tlsDisable: true
     injector:
+      enabled: true
       namespaceSelector:
         matchLabels:
           vault-injection: enabled
