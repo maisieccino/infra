@@ -14,7 +14,6 @@ spec:
     hosts: &hosts
     - blog.mbell.dev
     - blog.k8s.mbell.dev
-    - matt.bell.wtf
     tls:
       httpsRedirect: false
   - port:
