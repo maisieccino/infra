@@ -40,7 +40,7 @@ spec:
       serviceAccount: ghost
       containers:
       - name: ghost
-        image: ghost:3.40.0-alpine
+        image: ghost:3.42.2-alpine
         ports:
         - name: http
           protocol: TCP
