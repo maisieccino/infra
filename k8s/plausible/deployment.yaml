@@ -47,6 +47,8 @@ metadata:
   name: plausible
   labels:
     app: plausible
+  annotations:
+    fluxcd.io/ignore: "true"
 spec:
   replicas: 1
   selector:
@@ -69,7 +71,7 @@ spec:
             name: plausible-secrets
         env:
         - name: DISABLE_AUTH
-          value: "true"
+          value: "false"
         - name: DISABLE_REGISTRATION
           value: "true"
         - name: CLICKHOUSE_DATABASE_USER
