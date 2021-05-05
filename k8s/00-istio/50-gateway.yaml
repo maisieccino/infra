@@ -12,7 +12,6 @@ spec:
       name: http
       protocol: HTTP
     hosts: &hosts
-    - analytics.mbell.dev
     - blog.mbell.dev
     - blog.k8s.mbell.dev
     tls:
