@@ -5,7 +5,7 @@ metadata:
   name: letsencrypt-staging
 spec:
   acme:
-    email: matt+certmanager@mbell.dev
+    email: maisie+certmanager@mbell.dev
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-staging-tls
@@ -22,7 +22,7 @@ metadata:
   name: letsencrypt
 spec:
   acme:
-    email: matt+certmanager@mbell.dev
+    email: maisie+certmanager@mbell.dev
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-tls
