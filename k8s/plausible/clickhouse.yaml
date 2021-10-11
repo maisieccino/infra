@@ -14,5 +14,6 @@ spec:
     timezone: Europe/London
     clickhouse:
       replicas: 1
+      imageVersion: 21.8
     tabix:
       enabled: false

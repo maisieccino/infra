@@ -47,8 +47,6 @@ metadata:
   name: plausible
   labels:
     app: plausible
-  annotations:
-    fluxcd.io/ignore: "true"
 spec:
   replicas: 1
   selector:
@@ -80,6 +78,18 @@ spec:
           value: ""
         - name: BASE_URL
           value: "https://analytics.mbell.dev"
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: postgresql-password
+        - name: DATABASE_URL
+          value: postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(DB_SERVICE_HOST):$(DB_SERVICE_PORT)/plausible
         # - name: GEOLITE2_COUNTRY_DB
         #   value: "/geoip/GeoLite2-Country.mmdb"
         ports:

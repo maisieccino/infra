@@ -5,6 +5,8 @@ metadata:
   namespace: plausible
   labels:
     app: plausible-init
+  annotations:
+    fluxcd.io/ignore: "true"
 spec:
   backoffLimit: 3
   template:
@@ -16,7 +18,8 @@ spec:
       restartPolicy: OnFailure
       containers:
       - name: plausible-init
-        image: plausible/analytics:v1.2.1
+        image: plausible/analytics:v1.3.0
+        imagePullPolicy: Always
         command:
         - /bin/sh
         - -x
@@ -27,6 +30,18 @@ spec:
           /entrypoint.sh db migrate
           /entrypoint.sh db init-admin
         env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: postgresql-password
+        - name: DATABASE_URL
+          value: postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(DB_SERVICE_HOST):$(DB_SERVICE_PORT)/plausible
         - name: ADMIN_USER_EMAIL
           valueFrom:
             secretKeyRef:
@@ -42,21 +57,13 @@ spec:
             secretKeyRef:
               key: ADMIN_USER_PWD
               name: plausible-secrets
-        - name: DATABASE_URL
-          valueFrom:
-            secretKeyRef:
-              key: DATABASE_URL
-              name: plausible-secrets
         - name: SECRET_KEY_BASE
           valueFrom:
             secretKeyRef:
               key: SECRET_KEY_BASE
               name: plausible-secrets
         - name: CLICKHOUSE_DATABASE_URL
-          valueFrom:
-            secretKeyRef:
-              key: CLICKHOUSE_DATABASE_URL
-              name: plausible-secrets
+          value: "http://clickhouse:8123/plausible_events_db"
         - name: DISABLE_AUTH
           value: "true"
         - name: DISABLE_REGISTRATION
