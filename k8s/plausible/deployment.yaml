@@ -1,0 +1,134 @@
+# ---
+# apiVersion: helm.fluxcd.io/v1
+# kind: HelmRelease
+# metadata:
+#   name: plausible
+#   namespace: plausible
+# spec:
+#   releaseName: plausible
+#   chart:
+#     repository: https://8gears.container-registry.com/chartrepo/library
+#     name: plausible-analytics
+#     version: 0.2.2
+#   valuesFrom:
+#     - secretKeyRef:
+#         name: plausible-release-secrets
+#         key: values.yaml
+#         optional: false
+#   values:
+#     fullnameOverride: plausible
+#     replicaCount: 1
+#     image:
+#       tag: v1.2.1
+#     serviceAccount:
+#       name: plausible
+#     disableAuth: true
+#     disableRegistration: true
+#     baseURL: https://analytics.mbell.dev
+#     database:
+#       enabled: true
+#     clickhouse:
+#       enabled: true
+#       url: http://clickhouse.plausible.svc.cluster.local:8123/plausible_events_db
+#     geolocation:
+#       enabled: false
+#     ingress:
+#       enabled: false
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: plausible
+  namespace: plausible
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plausible
+  labels:
+    app: plausible
+  annotations:
+    fluxcd.io/ignore: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plausible
+  template:
+    metadata:
+      labels:
+        app: plausible
+    spec:
+      serviceAccountName: plausible
+      containers:
+      - name: plausible
+        image: plausible/analytics:v1.2.1
+        command:
+        - /entrypoint.sh
+        - run
+        envFrom:
+        - secretRef:
+            name: plausible-secrets
+        env:
+        - name: DISABLE_AUTH
+          value: "false"
+        - name: DISABLE_REGISTRATION
+          value: "true"
+        - name: CLICKHOUSE_DATABASE_USER
+          value: default
+        - name: CLICKHOUSE_DATABASE_PASSWORD
+          value: ""
+        - name: BASE_URL
+          value: "https://analytics.mbell.dev"
+        # - name: GEOLITE2_COUNTRY_DB
+        #   value: "/geoip/GeoLite2-Country.mmdb"
+        ports:
+        - name: http
+          containerPort: 8000
+          protocol: TCP
+        volumeMounts:
+        - name: app-tmp
+          mountPath: /app/tmp
+        - name: geoip
+          mountPath: /geoip/
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 500m
+            memory: 512Mi
+      # - name: geoipupdate
+      #   image: maxmindinc/geoipupdate
+      #   env:
+      #     - name: GEOIPUPDATE_FREQUENCY
+      #       value: "168"
+      #     - name: GEOIPUPDATE_EDITION_IDS
+      #       value: GeoLite2-Country
+      #     - name: GEOIPUPDATE_ACCOUNT_ID
+      #       valueFrom:
+      #         secretKeyRef:
+      #           name: plausible-secrets
+      #           key: GEOIPUPDATE_ACCOUNT_ID
+      #     - name: GEOIPUPDATE_LICENSE_KEY
+      #       valueFrom:
+      #         secretKeyRef:
+      #           name: plausible-secrets
+      #           key: GEOIPUPDATE_LICENSE_KEY
+      #   volumeMounts:
+      #     - name: geoip
+      #       mountPath: /usr/share/GeoIP
+
+      volumes:
+      - name: app-tmp
+        emptyDir: {}
+      - name: geoip
+        emptyDir: {}

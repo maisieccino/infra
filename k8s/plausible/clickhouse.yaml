@@ -1,0 +1,18 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: clickhouse
+  namespace: plausible
+spec:
+  releaseName: clickhouse
+  chart:
+    repository: https://8gears.container-registry.com/chartrepo/library
+    name: clickhouse
+    version: 1.0.2
+  values:
+    timezone: Europe/London
+    clickhouse:
+      replicas: 1
+    tabix:
+      enabled: false

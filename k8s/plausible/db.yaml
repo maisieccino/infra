@@ -1,0 +1,27 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: db
+  namespace: plausible
+spec:
+  releaseName: db
+  chart:
+    repository: https://charts.bitnami.com/bitnami
+    name: postgresql
+    version: 10.3.14
+  values:
+    fullnameOverride: db
+    rbac:
+      create: true
+    existingSecret: db-secret
+    postgresqlDatabase: plausible
+    replication:
+      enabled: false
+    primary:
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "false"
+    persistence:
+      enabled: true
+      size: 2Gi
+      storageClass: do-block-storage
