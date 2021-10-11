@@ -60,7 +60,7 @@ spec:
       serviceAccountName: plausible
       containers:
       - name: plausible
-        image: plausible/analytics:v1.2.1
+        image: plausible/analytics:v1.3.0
         command:
         - /entrypoint.sh
         - run
@@ -72,6 +72,8 @@ spec:
           value: "false"
         - name: DISABLE_REGISTRATION
           value: "true"
+        - name: CLICKHOUSE_DATABASE_URL
+          value: "http://clickhouse:8123/plausible_events_db"
         - name: CLICKHOUSE_DATABASE_USER
           value: default
         - name: CLICKHOUSE_DATABASE_PASSWORD
