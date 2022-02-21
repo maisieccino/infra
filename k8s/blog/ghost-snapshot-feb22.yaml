@@ -1,0 +1,18 @@
+---
+apiVersion: snapshot.storage.k8s.io/v1beta1
+kind: VolumeSnapshot
+metadata:
+  name: db-snapshot-20220221
+  namespace: blog
+spec:
+  source:
+    persistentVolumeClaimName: data-db-0
+---
+apiVersion: snapshot.storage.k8s.io/v1beta1
+kind: VolumeSnapshot
+metadata:
+  name: ghost-snapshot-20220221
+  namespace: blog
+spec:
+  source:
+    persistentVolumeClaimName: ghost-content
