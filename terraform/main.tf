@@ -37,7 +37,6 @@ module "cluster_resources" {
 }
 
 provider "kubernetes" {
-  load_config_file = false
   host             = module.cluster.api_endpoint
   token            = module.cluster.api_token
   cluster_ca_certificate = base64decode(
