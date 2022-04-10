@@ -1,18 +1,15 @@
 provider "digitalocean" {
   token   = var.do_token
-  version = "~> 1.16"
 }
 
 provider "cloudflare" {
-  version   = "~> 2.0"
   email     = var.cloudflare_email
   api_token = var.cloudflare_api_token
 }
 
 provider "github" {
-  version      = "2.4.0"
   token        = var.github_token
-  organization = "mbellgb"
+  organization = "himaisie"
   individual   = false
 }
 
@@ -22,15 +19,7 @@ provider "google" {
   region      = var.gcp_region
 }
 
-provider "tls" {
-  version = "2.2.0"
-}
-
 // K8s cluster.
-
-module "cluster" {
-  source = "./modules/cluster"
-}
 
 provider "kubernetes" {
   host             = module.cluster.api_endpoint

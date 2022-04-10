@@ -1,23 +1,18 @@
 terraform {
-  required_providers {
-    cloudflare = {
-      source = "cloudflare/cloudflare"
-    }
+  required_providers = {
     digitalocean = {
-      source = "digitalocean/digitalocean"
+      version = "~> 1.16"
+    }
+    cloudflare = {
+      version   = "~> 2.0"
     }
     github = {
-      source = "hashicorp/github"
-    }
-    google = {
-      source = "hashicorp/google"
-    }
-    kubernetes = {
-      source = "hashicorp/kubernetes"
+      version      = "2.4.0"
     }
     tls = {
-      source = "hashicorp/tls"
+      version = "2.2.0"
     }
   }
-  required_version = ">= 0.13"
+  required_version = ">= 1.1.0"
 }
+
