@@ -66,11 +66,11 @@ resource "kubernetes_stateful_set" "memcached" {
             timeout_seconds       = 5
           }
           resources {
-            requests {
+            requests = {
               cpu    = "50m"
               memory = "96Mi"
             }
-            limits {
+            limits = {
               cpu    = "250m"
               memory = "96Mi"
             }

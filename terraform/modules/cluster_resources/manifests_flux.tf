@@ -39,11 +39,11 @@ resource "kubernetes_deployment" "flux" {
           image             = "docker.io/fluxcd/flux:1.20.2"
           image_pull_policy = "IfNotPresent"
           resources {
-            requests {
+            requests = {
               cpu    = "250m"
               memory = "250M"
             }
-            limits {
+            limits = {
               cpu    = "1000m"
               memory = "250M"
             }
