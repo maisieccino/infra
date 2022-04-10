@@ -32,10 +32,6 @@ module "cluster" {
   source = "./modules/cluster"
 }
 
-module "cluster_resources" {
-  source = "./modules/cluster_resources"
-}
-
 provider "kubernetes" {
   host             = module.cluster.api_endpoint
   token            = module.cluster.api_token
