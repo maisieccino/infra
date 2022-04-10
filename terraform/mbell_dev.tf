@@ -153,10 +153,10 @@ resource "cloudflare_record" "docs_mbell_dev" {
   ttl     = var.dns_record_ttl
 }
 
-# resource "cloudflare_record" "blog_mbell_dev" {
-#   zone_id = cloudflare_zone.mbell_dev.id
-#   name    = "blog"
-#   type    = "CNAME"
-#   value   = "bell-blog.ghost.io"
-#   ttl     = var.dns_record_ttl
-# }
+resource "cloudflare_record" "blog_mbell_dev" {
+  zone_id = cloudflare_zone.mbell_dev.id
+  name    = "blog"
+  type    = "CNAME"
+  value   = "bell-blog.ghost.io"
+  ttl     = var.dns_record_ttl
+}
