@@ -139,14 +139,6 @@ resource "cloudflare_record" "spf_mbell_dev" {
   ttl     = var.dns_record_ttl
 }
 
-resource "cloudflare_record" "dkim_mbell_dev" {
-  zone_id = cloudflare_zone.mbell_dev.id
-  name    = "google._domainkey"
-  type    = "TXT"
-  value   = "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhcpXRbeFBqvpvS67jL6udxp/DGdjooQtikSS7ksZ9QuPgF2uKrVUB1KdEEho5NuQShr7nHw7c57ujC08hugH8srlAWMznBd4j68k24gjF8YUgLyb2Q4SMFQVfJfS61Me+VHHzIzU7NE6NAMCj1LfUVnNpIz3srY7kpk3GauHTh0RAKp5MOItR4ISHyBDYFYyF5kIR2uhUVd7Bgye2TCRiF5RK7EfoghrT+XAO/FrhEO7AyPhgG2OQWRD4X6F1XxDHsqiugzApwZb9OsaqDbdmzxI88U4X0eDGZSgYKRFsv5NBdkf1QiNsV1D3ZNkiAdV4Nn5QPsrkjlqTcLzFufzJQIDAQAB"
-  ttl     = var.dns_record_ttl
-}
-
 resource "cloudflare_record" "dkim1_mbell_dev" {
   zone_id = cloudflare_zone.mbell_dev.id
   name    = "protonmail._domainkey"
@@ -171,30 +163,6 @@ resource "cloudflare_record" "dkim3_mbell_dev" {
   ttl     = var.dns_record_ttl
 }
 
-resource "cloudflare_record" "mail_mbell_dev" {
-  zone_id = cloudflare_zone.mbell_dev.id
-  name    = "mail"
-  type    = "CNAME"
-  value   = "ghs.googlehosted.com"
-  ttl     = var.dns_record_ttl
-}
-
-resource "cloudflare_record" "calendar_mbell_dev" {
-  zone_id = cloudflare_zone.mbell_dev.id
-  name    = "calendar"
-  type    = "CNAME"
-  value   = "ghs.googlehosted.com"
-  ttl     = var.dns_record_ttl
-}
-
-resource "cloudflare_record" "docs_mbell_dev" {
-  zone_id = cloudflare_zone.mbell_dev.id
-  name    = "docs"
-  type    = "CNAME"
-  value   = "ghs.googlehosted.com"
-  ttl     = var.dns_record_ttl
-}
-
 resource "cloudflare_record" "blog_mbell_dev" {
   zone_id = cloudflare_zone.mbell_dev.id
   name    = "blog"
@@ -208,5 +176,13 @@ resource "cloudflare_record" "at_mbell_dev" {
   name    = "@"
   type    = "TXT"
   value   = "protonmail-verification=9ec445f24ecfa1a4b4719878fd9e0c6511878391"
+  ttl     = var.dns_record_ttl
+}
+
+resource "cloudflare_record" "dmarc_mbell_dev" {
+  zone_id = cloudflare_zone.mbell_dev.id
+  name    = "_dmarc"
+  value   = "v=DMARC1; p=quarantine"
+  type    = "TXT"
   ttl     = var.dns_record_ttl
 }
