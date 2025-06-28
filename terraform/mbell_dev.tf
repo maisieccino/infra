@@ -160,3 +160,11 @@ resource "cloudflare_record" "blog_mbell_dev" {
   value   = "bell-blog.ghost.io"
   ttl     = var.dns_record_ttl
 }
+
+resource "cloudflare_record" "at_mbell_dev" {
+  zone_id = cloudflare_zone.mbell_dev.id
+  name    = "@"
+  type    = "TXT"
+  value   = "protonmail-verification=9ec445f24ecfa1a4b4719878fd9e0c6511878391"
+  ttl     = var.dns_record_ttl
+}
