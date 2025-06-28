@@ -91,7 +91,7 @@ resource "cloudflare_record" "mx_1_mbell_dev" {
   name     = "mbell.dev"
   type     = "MX"
   value    = "aspmx.l.google.com"
-  priority = 20
+  priority = 30
   ttl      = var.dns_record_ttl
 }
 
@@ -100,7 +100,7 @@ resource "cloudflare_record" "mx_2_mbell_dev" {
   name     = "mbell.dev"
   type     = "MX"
   value    = "alt1.aspmx.l.google.com"
-  priority = 30
+  priority = 40
   ttl      = var.dns_record_ttl
 }
 
@@ -109,7 +109,7 @@ resource "cloudflare_record" "mx_3_mbell_dev" {
   name     = "mbell.dev"
   type     = "MX"
   value    = "alt2.aspmx.l.google.com"
-  priority = 30
+  priority = 50
   ttl      = var.dns_record_ttl
 }
 
@@ -118,7 +118,7 @@ resource "cloudflare_record" "mx_4_mbell_dev" {
   name     = "mbell.dev"
   type     = "MX"
   value    = "aspmx2.googlemail.com"
-  priority = 40
+  priority = 60
   ttl      = var.dns_record_ttl
 }
 
@@ -127,7 +127,7 @@ resource "cloudflare_record" "mx_5_mbell_dev" {
   name     = "mbell.dev"
   type     = "MX"
   value    = "aspmx3.googlemail.com"
-  priority = 50
+  priority = 70
   ttl      = var.dns_record_ttl
 }
 
