@@ -5,12 +5,12 @@ jobs:
   k8s-lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: dipshit/kubeval@1.0
-      with:
-        params: >-
-          --directories ./k8s/
-          --force-color
-          --ignore-missing-schemas
-          --kubernetes-version 1.17.5
-          --strict
+      - uses: actions/checkout@v1
+      - uses: dipshit/kubeval@1.0
+        with:
+          params: >-
+            --directories ./k8s/
+            --force-color
+            --ignore-missing-schemas
+            --kubernetes-version 1.17.5
+            --strict

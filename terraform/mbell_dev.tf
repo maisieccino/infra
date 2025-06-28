@@ -68,12 +68,30 @@ resource "cloudflare_record" "google_site_verification_mbell_dev" {
   ttl     = var.dns_record_ttl
 }
 
+resource "cloudflare_record" "mx_p1_mbell_dev" {
+  zone_id  = cloudflare_zone.mbell_dev.id
+  name     = "mbell.dev"
+  type     = "MX"
+  value    = "mail.protonmail.ch"
+  priority = 5
+  ttl      = var.dns_record_ttl
+}
+
+resource "cloudflare_record" "mx_p2_mbell_dev" {
+  zone_id  = cloudflare_zone.mbell_dev.id
+  name     = "mbell.dev"
+  type     = "MX"
+  value    = "mailsec.protonmail.ch"
+  priority = 10
+  ttl      = var.dns_record_ttl
+}
+
 resource "cloudflare_record" "mx_1_mbell_dev" {
   zone_id  = cloudflare_zone.mbell_dev.id
   name     = "mbell.dev"
   type     = "MX"
   value    = "aspmx.l.google.com"
-  priority = 1
+  priority = 20
   ttl      = var.dns_record_ttl
 }
 
@@ -82,7 +100,7 @@ resource "cloudflare_record" "mx_2_mbell_dev" {
   name     = "mbell.dev"
   type     = "MX"
   value    = "alt1.aspmx.l.google.com"
-  priority = 5
+  priority = 30
   ttl      = var.dns_record_ttl
 }
 
@@ -91,7 +109,7 @@ resource "cloudflare_record" "mx_3_mbell_dev" {
   name     = "mbell.dev"
   type     = "MX"
   value    = "alt2.aspmx.l.google.com"
-  priority = 5
+  priority = 30
   ttl      = var.dns_record_ttl
 }
 
@@ -100,7 +118,7 @@ resource "cloudflare_record" "mx_4_mbell_dev" {
   name     = "mbell.dev"
   type     = "MX"
   value    = "aspmx2.googlemail.com"
-  priority = 10
+  priority = 40
   ttl      = var.dns_record_ttl
 }
 
@@ -109,7 +127,7 @@ resource "cloudflare_record" "mx_5_mbell_dev" {
   name     = "mbell.dev"
   type     = "MX"
   value    = "aspmx3.googlemail.com"
-  priority = 10
+  priority = 50
   ttl      = var.dns_record_ttl
 }
 
@@ -117,39 +135,31 @@ resource "cloudflare_record" "spf_mbell_dev" {
   zone_id = cloudflare_zone.mbell_dev.id
   name    = "mbell.dev"
   type    = "TXT"
-  value   = "v=spf1 include:_spf.google.com ~all"
+  value   = "v=spf1 include:_spf.protonmail.ch ~all"
   ttl     = var.dns_record_ttl
 }
 
-resource "cloudflare_record" "dkim_mbell_dev" {
+resource "cloudflare_record" "dkim1_mbell_dev" {
   zone_id = cloudflare_zone.mbell_dev.id
-  name    = "google._domainkey"
-  type    = "TXT"
-  value   = "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhcpXRbeFBqvpvS67jL6udxp/DGdjooQtikSS7ksZ9QuPgF2uKrVUB1KdEEho5NuQShr7nHw7c57ujC08hugH8srlAWMznBd4j68k24gjF8YUgLyb2Q4SMFQVfJfS61Me+VHHzIzU7NE6NAMCj1LfUVnNpIz3srY7kpk3GauHTh0RAKp5MOItR4ISHyBDYFYyF5kIR2uhUVd7Bgye2TCRiF5RK7EfoghrT+XAO/FrhEO7AyPhgG2OQWRD4X6F1XxDHsqiugzApwZb9OsaqDbdmzxI88U4X0eDGZSgYKRFsv5NBdkf1QiNsV1D3ZNkiAdV4Nn5QPsrkjlqTcLzFufzJQIDAQAB"
-  ttl     = var.dns_record_ttl
-}
-
-resource "cloudflare_record" "mail_mbell_dev" {
-  zone_id = cloudflare_zone.mbell_dev.id
-  name    = "mail"
+  name    = "protonmail._domainkey"
   type    = "CNAME"
-  value   = "ghs.googlehosted.com"
+  value   = "protonmail.domainkey.d2gisrcgiqhdpikbvg6lswmssjizfy2gkoc4lomwhkmgshvptc4ia.domains.proton.ch."
   ttl     = var.dns_record_ttl
 }
 
-resource "cloudflare_record" "calendar_mbell_dev" {
+resource "cloudflare_record" "dkim2_mbell_dev" {
   zone_id = cloudflare_zone.mbell_dev.id
-  name    = "calendar"
+  name    = "protonmail2._domainkey"
   type    = "CNAME"
-  value   = "ghs.googlehosted.com"
+  value   = "protonmail2.domainkey.d2gisrcgiqhdpikbvg6lswmssjizfy2gkoc4lomwhkmgshvptc4ia.domains.proton.ch."
   ttl     = var.dns_record_ttl
 }
 
-resource "cloudflare_record" "docs_mbell_dev" {
+resource "cloudflare_record" "dkim3_mbell_dev" {
   zone_id = cloudflare_zone.mbell_dev.id
-  name    = "docs"
+  name    = "protonmail3._domainkey"
   type    = "CNAME"
-  value   = "ghs.googlehosted.com"
+  value   = "protonmail3.domainkey.d2gisrcgiqhdpikbvg6lswmssjizfy2gkoc4lomwhkmgshvptc4ia.domains.proton.ch."
   ttl     = var.dns_record_ttl
 }
 
@@ -166,5 +176,13 @@ resource "cloudflare_record" "at_mbell_dev" {
   name    = "@"
   type    = "TXT"
   value   = "protonmail-verification=9ec445f24ecfa1a4b4719878fd9e0c6511878391"
+  ttl     = var.dns_record_ttl
+}
+
+resource "cloudflare_record" "dmarc_mbell_dev" {
+  zone_id = cloudflare_zone.mbell_dev.id
+  name    = "_dmarc"
+  value   = "v=DMARC1; p=quarantine"
+  type    = "TXT"
   ttl     = var.dns_record_ttl
 }
