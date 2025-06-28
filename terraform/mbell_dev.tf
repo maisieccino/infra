@@ -10,7 +10,7 @@ resource "cloudflare_record" "root_mbell_dev" {
   zone_id = cloudflare_zone.mbell_dev.id
   name    = "mbell.dev"
   type    = "CNAME"
-  value   = "mbellgb.github.io"
+  value   = "maisieccino.github.io"
   ttl     = var.dns_record_ttl
 }
 
