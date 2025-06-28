@@ -70,19 +70,19 @@ resource "cloudflare_record" "google_site_verification_mbell_dev" {
 
 resource "cloudflare_record" "mx_p1_mbell_dev" {
   zone_id  = cloudflare_zone.mbell_dev.id
-  name     = "mbell.dev"
+  name     = "@"
   type     = "MX"
   value    = "mail.protonmail.ch"
-  priority = 5
+  priority = 10
   ttl      = var.dns_record_ttl
 }
 
 resource "cloudflare_record" "mx_p2_mbell_dev" {
   zone_id  = cloudflare_zone.mbell_dev.id
-  name     = "mbell.dev"
+  name     = "@"
   type     = "MX"
   value    = "mailsec.protonmail.ch"
-  priority = 10
+  priority = 20
   ttl      = var.dns_record_ttl
 }
 
@@ -143,7 +143,7 @@ resource "cloudflare_record" "dkim1_mbell_dev" {
   zone_id = cloudflare_zone.mbell_dev.id
   name    = "protonmail._domainkey"
   type    = "CNAME"
-  value   = "protonmail.domainkey.d2gisrcgiqhdpikbvg6lswmssjizfy2gkoc4lomwhkmgshvptc4ia.domains.proton.ch."
+  value   = "protonmail.domainkey.d2gisrcgiqhdpikbvg6lswmssjizfy2gkoc4lomwhkmgshvptc4ia.domains.proton.ch"
   ttl     = var.dns_record_ttl
 }
 
@@ -151,7 +151,7 @@ resource "cloudflare_record" "dkim2_mbell_dev" {
   zone_id = cloudflare_zone.mbell_dev.id
   name    = "protonmail2._domainkey"
   type    = "CNAME"
-  value   = "protonmail2.domainkey.d2gisrcgiqhdpikbvg6lswmssjizfy2gkoc4lomwhkmgshvptc4ia.domains.proton.ch."
+  value   = "protonmail2.domainkey.d2gisrcgiqhdpikbvg6lswmssjizfy2gkoc4lomwhkmgshvptc4ia.domains.proton.ch"
   ttl     = var.dns_record_ttl
 }
 
@@ -159,7 +159,7 @@ resource "cloudflare_record" "dkim3_mbell_dev" {
   zone_id = cloudflare_zone.mbell_dev.id
   name    = "protonmail3._domainkey"
   type    = "CNAME"
-  value   = "protonmail3.domainkey.d2gisrcgiqhdpikbvg6lswmssjizfy2gkoc4lomwhkmgshvptc4ia.domains.proton.ch."
+  value   = "protonmail3.domainkey.d2gisrcgiqhdpikbvg6lswmssjizfy2gkoc4lomwhkmgshvptc4ia.domains.proton.ch"
   ttl     = var.dns_record_ttl
 }
 
