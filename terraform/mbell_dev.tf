@@ -86,51 +86,6 @@ resource "cloudflare_record" "mx_p2_mbell_dev" {
   ttl      = var.dns_record_ttl
 }
 
-resource "cloudflare_record" "mx_1_mbell_dev" {
-  zone_id  = cloudflare_zone.mbell_dev.id
-  name     = "mbell.dev"
-  type     = "MX"
-  value    = "aspmx.l.google.com"
-  priority = 30
-  ttl      = var.dns_record_ttl
-}
-
-resource "cloudflare_record" "mx_2_mbell_dev" {
-  zone_id  = cloudflare_zone.mbell_dev.id
-  name     = "mbell.dev"
-  type     = "MX"
-  value    = "alt1.aspmx.l.google.com"
-  priority = 40
-  ttl      = var.dns_record_ttl
-}
-
-resource "cloudflare_record" "mx_3_mbell_dev" {
-  zone_id  = cloudflare_zone.mbell_dev.id
-  name     = "mbell.dev"
-  type     = "MX"
-  value    = "alt2.aspmx.l.google.com"
-  priority = 50
-  ttl      = var.dns_record_ttl
-}
-
-resource "cloudflare_record" "mx_4_mbell_dev" {
-  zone_id  = cloudflare_zone.mbell_dev.id
-  name     = "mbell.dev"
-  type     = "MX"
-  value    = "aspmx2.googlemail.com"
-  priority = 60
-  ttl      = var.dns_record_ttl
-}
-
-resource "cloudflare_record" "mx_5_mbell_dev" {
-  zone_id  = cloudflare_zone.mbell_dev.id
-  name     = "mbell.dev"
-  type     = "MX"
-  value    = "aspmx3.googlemail.com"
-  priority = 70
-  ttl      = var.dns_record_ttl
-}
-
 resource "cloudflare_record" "spf_mbell_dev" {
   zone_id = cloudflare_zone.mbell_dev.id
   name    = "mbell.dev"
