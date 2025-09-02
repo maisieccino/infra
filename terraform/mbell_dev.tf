@@ -14,6 +14,14 @@ resource "cloudflare_record" "root_mbell_dev" {
   ttl     = var.dns_record_ttl
 }
 
+resource "cloudflare_record" "www_mbell_dev" {
+  zone_id = cloudflare_zone.mbell_dev.id
+  name    = "www"
+  type    = "CNAME"
+  value   = "maisieccino.github.io"
+  ttl     = var.dns_record_ttl
+}
+
 resource "cloudflare_record" "mg_mbell_dev_1" {
   zone_id  = cloudflare_zone.mbell_dev.id
   name     = "mg"
