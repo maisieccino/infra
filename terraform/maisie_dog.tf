@@ -12,7 +12,7 @@ resource "cloudflare_record" "atproto_mbell_dog" {
 }
 
 resource "cloudflare_record" "login_maisie_dog" {
-  name = "login.maisie.dog"
+  name = "login"
   zone_id = cloudflare_zone.maisie_dog.id
   type = "CNAME"
   ttl = var.dns_record_ttl
