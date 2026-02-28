@@ -42,3 +42,12 @@ variable "gcp_project" {
 variable "gcp_region" {
   description = "Google Cloud Platform region"
 }
+
+variable "tailscale_api_key" {
+  description = "Tailscale API Key"
+}
+
+variable "tailscale_tailnet" {
+  description = "Tailnet name"
+  default     = "corvus-buri.ts.net"
+}
