@@ -1,5 +1,5 @@
 provider "digitalocean" {
-  token   = var.do_token
+  token = var.do_token
 }
 
 provider "cloudflare" {
@@ -17,4 +17,9 @@ provider "google" {
   credentials = base64decode(var.gcp_credentials_encoded)
   project     = var.gcp_project
   region      = var.gcp_region
+}
+
+provider "tailscale" {
+  api_key = var.tailscale_api_key
+  tailnet = var.tailscale_tailnet
 }
