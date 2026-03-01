@@ -3,8 +3,9 @@ provider "digitalocean" {
 }
 
 provider "cloudflare" {
-  email     = var.cloudflare_email
-  api_token = var.cloudflare_api_token
+  email      = var.cloudflare_email
+  api_token  = var.cloudflare_api_token
+  account_id = var.cloudflare_account_id
 }
 
 provider "github" {

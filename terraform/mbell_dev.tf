@@ -11,7 +11,7 @@ resource "cloudflare_record" "root_mbell_dev" {
   name    = "mbell.dev"
   type    = "CNAME"
   value   = "maisieccino.github.io"
-  ttl     = var.dns_record_ttl
+  ttl     = 1
   proxied = true
 }
 

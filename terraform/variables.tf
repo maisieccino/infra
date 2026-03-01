@@ -6,6 +6,10 @@ variable "cloudflare_email" {
   description = "Email address for cloudflare"
 }
 
+variable "cloudflare_account_id" {
+  description = "Account ID for cloudflare"
+}
+
 variable "cloudflare_api_token" {
   description = "API token for cloudflare"
 }
