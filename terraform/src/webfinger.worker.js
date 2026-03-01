@@ -8,7 +8,7 @@ async function handleRequest(request) {
     })
   }
   const email = key.replace("acct:", "")
-  if (! /([A-Za-z0-9+]|-)+@mbell.dev/.match(email)) {
+  if (!email.match(/([A-Za-z0-9+]|-)+@mbell.dev/)) {
     return new Response('', {
       status: 400
     })
@@ -19,7 +19,7 @@ async function handleRequest(request) {
     links: [
       {
         rel: "http://openid.net/specs/connect/1.0/issuer",
-        href: "https://login.maisie.dog"
+        href: "https://login.maisie.dog/"
       }
     ]
   }
