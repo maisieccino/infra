@@ -8,3 +8,8 @@ resource "cloudflare_worker_route" "webfinger" {
   pattern     = "mbell.dev/.well-known/webfinger*"
   script_name = cloudflare_worker_script.webfinger_handler.name
 }
+resource "cloudflare_worker_route" "webfinger_maisie_dog" {
+  zone_id     = cloudflare_zone.maisie_dog.id
+  pattern     = "maisie_dog/.well-known/webfinger*"
+  script_name = cloudflare_worker_script.webfinger_handler.name
+}

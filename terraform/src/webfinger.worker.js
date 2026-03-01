@@ -8,11 +8,6 @@ async function handleRequest(request) {
     })
   }
   const email = key.replace("acct:", "")
-  if (!email.match(/([A-Za-z0-9+]|-)+@mbell.dev/)) {
-    return new Response('', {
-      status: 400
-    })
-  }
 
   const res = {
     subject: `acct:${email}`,
